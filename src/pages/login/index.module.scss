@@ -1,0 +1,68 @@
+.loginPage {
+  position: relative;
+  height: 100vh;
+  background-position: 0% 100%;
+  background-size: 400%;
+  background-image: linear-gradient(45deg, #9cb8e6 0%, #a3d4f0 33%, #9ed3d9 66%, #9ce6c4 100%);
+  animation: gradient 7.5s ease-in-out infinite;
+
+  .logo {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    width: 162px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+
+  .form {
+    position: absolute;
+    top: 300px;
+    left: 50%;
+    display: flex;
+    overflow: hidden;
+    width: 300px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+
+    .input {
+      margin-bottom: 14px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+
+      &:focus {
+        border-color: #409eff;
+        outline: none;
+      }
+    }
+
+    .button {
+      border-radius: 4px;
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    display: flex;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+    color: #fff;
+    opacity: 0.8;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@keyframes gradient {
+  50% {
+    background-position: 100% 0;
+  }
+}

@@ -1,0 +1,38 @@
+.account {
+  overflow: auto;
+  background-color: #f6f6f6;
+
+  .info {
+    display: flex;
+    padding: 10px 20px 20px 30px;
+    background-color: #fff;
+    gap: 10px;
+
+    .name {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+
+      .realname {
+        font-weight: bold;
+      }
+
+      .username {
+        color: #8c8c8c;
+      }
+    }
+  }
+
+  .contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .qr {
+      width: 200px;
+      height: 200px;
+    }
+  }
+}
