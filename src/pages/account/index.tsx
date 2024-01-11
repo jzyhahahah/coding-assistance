@@ -1,6 +1,6 @@
-import { useLogin } from '@/api/user/index';
 import consultQr from '@/assets/consult_qr.png';
 import { useGetSafeHeight } from '@/common/hooks';
+import { useAuth } from '@/components/hoc/with-auth';
 import { Message, My, RectRight, Setting, Star } from '@nutui/icons-react-taro';
 import { Avatar, Button, Cell, Dialog } from '@nutui/nutui-react-taro';
 import { Image } from '@tarojs/components';
@@ -11,14 +11,15 @@ import styles from './index.module.scss';
 const Account = () => {
   const height = useGetSafeHeight();
   const [contactShow, setContactShow] = useState(false);
-  const { runAsync: runLogin } = useLogin();
+  const { login } = useAuth();
 
   const handlerLogin = () => {
-    wx.login({
-      success(res) {
-        runLogin({ code: res.code });
-      }
-    });
+    /*     Taro.login({
+          success(res) {
+            runLogin({ code: res.code });
+          }
+        }); */
+    login();
   };
 
   return (

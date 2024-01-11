@@ -1,7 +1,8 @@
 export interface LoginRequest {
-  username: string;
-  password: string;
-  loginmode?: string;
+  // username: string;
+  // password: string;
+  // loginmode?: string;
+  code: string;
 }
 
 export interface LoginResponse {
