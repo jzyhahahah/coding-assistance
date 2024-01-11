@@ -2,6 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "frontend-applet",
   "description": "",
+  "cloudfunctionRoot": "cloudbase/",
   "appid": "wx54df438943191391",
   "setting": {
     "urlCheck": true,
@@ -27,5 +28,6 @@
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
 }

@@ -1,31 +1,56 @@
-import { createApi } from 'x-star-query';
-import { useErrorHandler } from '..';
-import { LoginRequest, LoginResponse } from './define';
+import Taro from '@tarojs/taro';
+import { useRequest } from 'ahooks';
 
-export const { usePasswordLoginMutate } = createApi({
-  /**
-   * 全局 axios 配置
-   */
-  axiosConfig: { baseURL: 'https://id-api.test.turingstar.com.cn' },
+interface LoginRequest {
+  code: string;
+}
+interface getRespones {
+  code: number;
+  msg: number;
+  data: string;
+}
+interface LoginRequest {
+  code: string;
+}
 
-  /**
-   * 全局响应转换
-   */
-  transformResponse: (data) => {
-    if (data.code !== 200) {
-      throw new Error(data.code + ': ' + data.msg);
+const login = async (req: LoginRequest): Promise<any> => {
+  const resp = (await Taro.cloud.callFunction({
+    name: 'login',
+    data: {
+      code: req.code
     }
-    return data.data;
-  },
+  })) as any;
+  return resp;
+};
 
-  /**
-   * 接口定义
-   */
-  endpoints: (builder) => ({
-    passwordLogin: builder.mutate<LoginResponse, void, LoginRequest>({
-      query: '/login_oauth' + '?' + window.location.search.slice(1)
-    })
-  }),
+export const useLogin = () => {
+  return useRequest(
+    async (params: LoginRequest) => {
+      const resp = await login(params);
+      return resp;
+    },
+    {
+      manual: true
+      //onError:useErrorHandler
+    }
+  );
+};
 
-  useErrorHandler: useErrorHandler
-});
+const get = async (): Promise<getRespones> => {
+  const resp = (await Taro.cloud.callFunction({
+    name: 'get'
+  })) as any;
+  return resp;
+};
+
+export const useGetDemo = () => {
+  return useRequest(
+    async () => {
+      const resp = await get({ id: 1 });
+      return resp.data;
+    },
+    {
+      manual: false
+    }
+  );
+};
