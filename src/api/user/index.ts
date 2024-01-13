@@ -1,43 +1,23 @@
-interface LoginRequest {
-  code: string;
-}
-interface getRespones {
-  code: number;
-  msg: number;
-  data: string;
-}
-interface LoginRequest {
-  code: string;
-}
+import Taro from '@tarojs/taro';
+import { useRequest } from 'ahooks';
+import { getUserInfoRequest, getUserInfoRespones } from './define';
 
-/* export const useLogin = () => {
+const getUserInfoCloudFunction = async (req: getUserInfoRequest): Promise<getUserInfoRespones> => {
+  const resp = (await Taro.cloud.callFunction({
+    name: 'getUserInfo',
+    data: req
+  })) as any;
+  return resp?.result;
+};
+
+export const useGetUserInfo = () => {
   return useRequest(
-    async (params: LoginRequest) => {
-      const resp = await login(params);
-      return resp;
+    async (params: getUserInfoRequest) => {
+      const resp = await getUserInfoCloudFunction(params);
+      return resp.user;
     },
     {
       manual: true
-      //onError:useErrorHandler
     }
   );
-}; */
-
-/* const get = async (): Promise<getRespones> => {
-  const resp = (await Taro.cloud.callFunction({
-    name: 'get'
-  })) as any;
-  return resp;
-}; */
-
-/* export const useGetDemo = () => {
-  return useRequest(
-    async () => {
-      const resp = await get({ id: 1 });
-      return resp.data;
-    },
-    {
-      manual: false
-    }
-  );
-}; */
+};

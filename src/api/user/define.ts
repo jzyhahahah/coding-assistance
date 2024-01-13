@@ -1,14 +1,15 @@
-export interface LoginRequest {
-  // username: string;
-  // password: string;
-  // loginmode?: string;
-  code: string;
-}
+import { UserInfo } from '@/components/hoc/with-auth/define';
 
-export interface LoginResponse {
-  code: number;
-  msg: string;
-  data: {
-    key: string;
-  };
+export interface LoginRequest {
+  code: string;
+  userRawData: string;
+}
+export interface LoginRespones {
+  user: UserInfo;
+}
+export interface getUserInfoRequest {
+  _openid: string;
+}
+export interface getUserInfoRespones {
+  user: UserInfo;
 }

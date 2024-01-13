@@ -5,34 +5,39 @@ import { Message, My, RectRight, Setting, Star } from '@nutui/icons-react-taro';
 import { Avatar, Button, Cell, Dialog } from '@nutui/nutui-react-taro';
 import { Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
 const Account = () => {
   const height = useGetSafeHeight();
   const [contactShow, setContactShow] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
 
-  const handlerLogin = () => {
-    Taro.login({
-      success(res) {
-        console.log(res);
-        login({ code: res.code });
+  const handlerLogin = async () => {
+    await Taro.getUserProfile({
+      desc: '获取用户信息用于登录',
+      success(info) {
+        Taro.login({
+          async success(res) {
+            await login({ code: res.code, userRawData: info.rawData });
+          }
+        });
       }
     });
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <div className={styles.account} style={{ height }}>
       <div className={styles.info}>
         <Avatar size="large" shape="square" icon={<My />} />
         <div className={styles.name}>
-          <Button onClick={handlerLogin}>{'登录'}</Button>
-          <div className={styles.realname}>{}</div>
-          {/* <div className={styles.username}>
-            {getDescription(lang, '用户名')}
-            {'Light'}
-          </div> */}
+          {!user?._openid && <Button onClick={handlerLogin}>{'授权登录'}</Button>}
+          <div className={styles.realname}>{'145131'}</div>
+          <div className={styles.username}>{user?.nickName}</div>
         </div>
       </div>
       <Cell

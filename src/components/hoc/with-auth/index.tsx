@@ -1,57 +1,32 @@
-import { LoginRequest } from '@/api/user/define';
+import { useGetUserInfo } from '@/api/user';
+import { LoginRequest, LoginRespones } from '@/api/user/define';
 import { Col, Row, Space } from '@nutui/nutui-react-taro';
 import Taro from '@tarojs/taro';
 import { useRequest } from 'ahooks';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthInfo, UserInfo } from './define';
 
 const showWarning = async () => {
   console.warn('AuthContext has not been provided. You are calling a noop function.');
 };
 
-const initalUserData = async () => {
-  return {
-    openid: 0,
-    CreateAt: 'init',
-    UpdatedAt: 'init',
-    DeletedAt: 'init',
-    ModifyRealName: true,
-    userName: 'init',
-    password: 'init',
-    realName: 'init',
-    phone: 'init',
-    email: 'init',
-    wechatOpenid: 'init',
-    signature: 'init',
-    gender: 0,
-    school: 'init',
-    birthday: 'init',
-    province: 'init',
-    city: 'init',
-    area: 'init',
-    address: 'init',
-    postcode: 'init',
-    awards: 'init',
-    resource: ['init'],
-    state: 'init'
-  };
-};
-
 const AuthContext = React.createContext<AuthInfo>({
   user: null,
-  login: initalUserData,
+  setUser: showWarning,
+  login: showWarning as any,
   refresh: showWarning,
   logout: showWarning
 });
 
-const loginCloudFunction = async (req: LoginRequest): Promise<UserInfo> => {
+const loginCloudFunction = async (req: LoginRequest): Promise<LoginRespones> => {
   const resp = (await Taro.cloud.callFunction({
     name: 'login',
     data: {
-      code: req.code
+      code: req.code,
+      userRawData: req.userRawData
     }
   })) as any;
-  return resp;
+  return resp?.result;
 };
 
 const RainbowCat: React.FC<{ text: string }> = ({ text }) => (
@@ -69,26 +44,39 @@ const RainbowCat: React.FC<{ text: string }> = ({ text }) => (
 );
 
 export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const {
-    data: user,
-    loading,
-    runAsync,
-    refreshAsync
-  } = useRequest(
+  const [user, setUser] = useState<UserInfo>();
+  const { runAsync: getUserInfoAysnc } = useGetUserInfo();
+  useEffect(() => {
+    try {
+      Taro.getStorage({
+        key: '_openid',
+        success: async function (res) {
+          //console.log(res.data)
+          const info = await getUserInfoAysnc({ _openid: res.data });
+          setUser(info);
+        }
+      });
+    } catch (e) {}
+  }, []);
+  const { loading, runAsync, refreshAsync } = useRequest(
     async (params: LoginRequest) => {
       const resp = await loginCloudFunction(params);
-      if (resp.state === 'noRegistered') {
-        Taro.navigateTo({ url: '/components/account/settings/index' });
-      }
+      Taro.setStorage({
+        key: '_openid',
+        data: resp.user._openid
+      });
       return resp;
     },
     {
+      throttleWait: 1000,
       manual: true
       //onError:useErrorHandler
     }
   );
-  const login = (req: LoginRequest) => {
-    return runAsync?.(req);
+  const login = async (req: LoginRequest) => {
+    const respUser = await runAsync?.(req);
+    setUser(respUser.user);
+    return respUser;
   };
 
   const refresh = useCallback(async () => {
@@ -99,7 +87,8 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
   return (
     <AuthContext.Provider
       value={{
-        user,
+        user: user,
+        setUser,
         login,
         refresh,
         logout

@@ -1,4 +1,4 @@
-import { usePasswordLoginMutate } from '@/api/user';
+//import { usePasswordLoginMutate } from '@/api/user';
 import xyd_Logo from '@/assets/xyd_logo_white.png';
 import { Button, Input, Tabs } from '@nutui/nutui-react-taro';
 import { Image } from '@tarojs/components';
@@ -13,14 +13,14 @@ const Login = () => {
   const handleSubmit = () => {
     // 这里可以执行登录操作，例如调用 API
     console.log(username, password);
-    login({
+    /* login({
       username,
       password,
       loginmode: 'normal'
-    });
+    }); */
   };
 
-  const { runAsync: login } = usePasswordLoginMutate();
+  //const { runAsync: login } = usePasswordLoginMutate();
 
   return (
     <div className={styles.loginPage}>
