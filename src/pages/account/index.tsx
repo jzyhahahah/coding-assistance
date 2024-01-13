@@ -14,12 +14,12 @@ const Account = () => {
   const { login } = useAuth();
 
   const handlerLogin = () => {
-    /*     Taro.login({
-          success(res) {
-            runLogin({ code: res.code });
-          }
-        }); */
-    login();
+    Taro.login({
+      success(res) {
+        console.log(res);
+        login({ code: res.code });
+      }
+    });
   };
 
   return (

@@ -9,9 +9,37 @@ const showWarning = async () => {
   console.warn('AuthContext has not been provided. You are calling a noop function.');
 };
 
+const initalUserData = async () => {
+  return {
+    openid: 0,
+    CreateAt: 'init',
+    UpdatedAt: 'init',
+    DeletedAt: 'init',
+    ModifyRealName: true,
+    userName: 'init',
+    password: 'init',
+    realName: 'init',
+    phone: 'init',
+    email: 'init',
+    wechatOpenid: 'init',
+    signature: 'init',
+    gender: 0,
+    school: 'init',
+    birthday: 'init',
+    province: 'init',
+    city: 'init',
+    area: 'init',
+    address: 'init',
+    postcode: 'init',
+    awards: 'init',
+    resource: ['init'],
+    state: 'init'
+  };
+};
+
 const AuthContext = React.createContext<AuthInfo>({
   user: null,
-  login: showWarning,
+  login: initalUserData,
   refresh: showWarning,
   logout: showWarning
 });
@@ -44,6 +72,7 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
   const {
     data: user,
     loading,
+    runAsync,
     refreshAsync
   } = useRequest(
     async (params: LoginRequest) => {
@@ -58,8 +87,8 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
       //onError:useErrorHandler
     }
   );
-  const login = () => {
-    return refresh?.();
+  const login = (req: LoginRequest) => {
+    return runAsync?.(req);
   };
 
   const refresh = useCallback(async () => {

@@ -16,6 +16,7 @@ exports.main = async (event, context) => {
         session_key,
         openid
     } = JSON.parse(await rp(url));
+    console.log(openid)
     const existUser = await db.collection('userInfo').where({
         _openid: openid,
     }).get({
