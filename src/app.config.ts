@@ -1,5 +1,13 @@
 export default defineAppConfig({
-  pages: ['pages/home/index', 'pages/course/index', 'pages/activity/index', 'pages/account/index', 'pages/login/index', 'components/account/settings/index'],
+  pages: [
+    'pages/home/index',
+    'pages/course/index',
+    'pages/activity/index',
+    'pages/account/index',
+    'pages/login/index',
+    'components/account/settings/index',
+    'components/account/userInfo-edit/index'
+  ],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',

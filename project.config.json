@@ -15,6 +15,12 @@
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
+    },
+    "mini": {
+      "enableExtract": true,
+      "miniCssExtractPluginOption": {
+        "ignoreOrder": true
+      }
     }
   },
   "compileType": "miniprogram",

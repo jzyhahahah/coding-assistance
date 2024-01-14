@@ -1,11 +1,11 @@
 import consultQr from '@/assets/consult_qr.png';
 import { useGetSafeHeight } from '@/common/hooks';
 import { useAuth } from '@/components/hoc/with-auth';
-import { Message, My, RectRight, Setting, Star } from '@nutui/icons-react-taro';
+import { Message, RectRight, Setting, Star } from '@nutui/icons-react-taro';
 import { Avatar, Button, Cell, Dialog } from '@nutui/nutui-react-taro';
 import { Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './index.module.scss';
 
 const Account = () => {
@@ -19,24 +19,29 @@ const Account = () => {
       success(info) {
         Taro.login({
           async success(res) {
-            await login({ code: res.code, userRawData: info.rawData });
+            await login({
+              code: res.code,
+              userRawData: info.rawData
+            });
           }
         });
       }
     });
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const handleEditInfo = () => {
+    Taro.navigateTo({
+      url: '/components/account/userInfo-edit/index'
+    });
+  };
 
   return (
     <div className={styles.account} style={{ height }}>
-      <div className={styles.info}>
-        <Avatar size="large" shape="square" icon={<My />} />
+      <div className={styles.info} onClick={handleEditInfo}>
+        <Avatar size="large" shape="square" src={user?.avatarUrl} />
         <div className={styles.name}>
           {!user?._openid && <Button onClick={handlerLogin}>{'授权登录'}</Button>}
-          <div className={styles.realname}>{'145131'}</div>
+          {/* <div className={styles.realname}>{'145131'}</div> */}
           <div className={styles.username}>{user?.nickName}</div>
         </div>
       </div>
@@ -91,10 +96,19 @@ const Account = () => {
             {'设置'}
           </div>
         }
-        onClick={() => Taro.navigateTo({ url: '/components/account/settings/index' })}
+        onClick={() =>
+          Taro.navigateTo({
+            url: '/components/account/settings/index'
+          })
+        }
         extra={<RectRight />}
       />
-      <Dialog visible={contactShow} className={styles.contact} footer={null} onClose={() => setContactShow(false)}>
+      <Dialog
+        visible={contactShow}
+        className={styles.contact}
+        footer={null}
+        onClose={() => setContactShow(false)}
+      >
         <Image src={consultQr} className={styles.qr} />
         <div className={styles.contact_bottom}>{'微信扫码'}</div>
       </Dialog>

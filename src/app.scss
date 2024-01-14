@@ -1,5 +1,9 @@
+@import './mixin';
+
 :root,
 page {
+  color: #444;
+
   --nutui-color-primary: #1990fe;
   --nutui-color-primary-stop-1: #1990fe;
   --nutui-color-primary-stop-2: #1990fe;
@@ -40,4 +44,10 @@ page {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+
+@mixin font-style($size: 16px, $color: #444, $lineHeight: 24px) {
+  font-size: $size;
+  color: $color;
+  line-height: $lineHeight;
 }

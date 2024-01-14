@@ -44,19 +44,22 @@ const RainbowCat: React.FC<{ text: string }> = ({ text }) => (
 );
 
 export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserInfo>();
+  const [user, setUser] = useState<UserInfo | null>();
   const { runAsync: getUserInfoAysnc } = useGetUserInfo();
+  const logoutSuccessMsg = '退出登录成功';
+  const logoutErrorMsg = '退出登录失败';
   useEffect(() => {
-    try {
-      Taro.getStorage({
-        key: '_openid',
-        success: async function (res) {
-          //console.log(res.data)
-          const info = await getUserInfoAysnc({ _openid: res.data });
-          setUser(info);
-        }
-      });
-    } catch (e) {}
+    Taro.getStorage({
+      key: '_openid',
+      success: async function (res) {
+        //console.log(res.data)
+        const info = await getUserInfoAysnc({ _openid: res.data });
+        setUser(info);
+      },
+      fail: function (res) {
+        console.log(res);
+      }
+    });
   }, []);
   const { loading, runAsync, refreshAsync } = useRequest(
     async (params: LoginRequest) => {
@@ -73,17 +76,32 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
       //onError:useErrorHandler
     }
   );
-  const login = async (req: LoginRequest) => {
+
+  const login = useCallback(async (req: LoginRequest) => {
     const respUser = await runAsync?.(req);
     setUser(respUser.user);
     return respUser;
-  };
+  }, []);
 
   const refresh = useCallback(async () => {
     await refreshAsync();
   }, [refreshAsync]);
 
-  const logout = () => {};
+  const logout = () => {
+    setUser(null);
+    try {
+      Taro.removeStorage({
+        key: '_openid',
+        success: function (res) {
+          Taro.switchTab({ url: '/pages/home/index' });
+          Taro.showToast({
+            title: logoutSuccessMsg,
+            duration: 1500
+          });
+        }
+      });
+    } catch {}
+  };
   return (
     <AuthContext.Provider
       value={{

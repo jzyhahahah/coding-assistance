@@ -33,5 +33,14 @@ module.exports = {
     //       postProcess: (context) => ({ ...context, outputPath: path.join(staticDir, 'index.html') })
     //     }))
     // }
+  },
+  sass: {
+    resource: [
+      path.resolve(
+        __dirname,
+        '..',
+        'src/_mixin.scss'
+      )
+    ]
   }
 }

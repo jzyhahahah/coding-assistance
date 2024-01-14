@@ -15,8 +15,8 @@ export type UserInfo = {
 
 export type AuthInfo = {
   user?: UserInfo | null;
-  setUser: (user: UserInfo) => void;
+  setUser: (user: UserInfo | null) => void;
   login: (req: LoginRequest) => Promise<LoginRespones> | (() => Promise<void>);
   refresh: () => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
 };

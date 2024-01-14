@@ -1,6 +1,5 @@
 import CustomLayout from '@/components/layout';
 import Taro, { useDidHide, useDidShow } from '@tarojs/taro';
-
 import axios from 'axios';
 import mpAdapter from 'axios-miniprogram-adapter';
 import { ReactElement, createElement, useEffect } from 'react';
