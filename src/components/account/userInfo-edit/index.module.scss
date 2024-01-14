@@ -4,7 +4,7 @@
   .topTextInfo {
     background-color: rgb(224 172 165);
 
-    @include font-Style(14px, #444, 24px);
+    @include font-style(14px, #444, 24px);
 
     .textSpan {
       padding-left: 10px;
