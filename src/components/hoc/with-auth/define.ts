@@ -10,6 +10,7 @@ export type UserInfo = {
   province: string;
   country: string;
   avatarUrl: string;
+  coding: string;
   state: string;
 };
 

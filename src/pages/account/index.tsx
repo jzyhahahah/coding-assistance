@@ -13,7 +13,8 @@ const Account = () => {
   const [contactShow, setContactShow] = useState(false);
   const { login, user } = useAuth();
 
-  const handlerLogin = async () => {
+  const handlerLogin = async (e) => {
+    e.stopPropagation();
     await Taro.getUserProfile({
       desc: '获取用户信息用于登录',
       success(info) {
@@ -41,8 +42,8 @@ const Account = () => {
         <Avatar size="large" shape="square" src={user?.avatarUrl} />
         <div className={styles.name}>
           {!user?._openid && <Button onClick={handlerLogin}>{'授权登录'}</Button>}
-          {/* <div className={styles.realname}>{'145131'}</div> */}
           <div className={styles.username}>{user?.nickName}</div>
+          <div className={styles.username}>{user?.coding}</div>
         </div>
       </div>
       <Cell

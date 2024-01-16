@@ -1,23 +1,18 @@
-/* eslint-disable import/first */
+import { useGetUserInfo, useUpdateUserInfo } from '@/api/user';
 import provinceCity from '@/assets/address';
 import MyAddress from '@/components/common/MyAddress';
 import { useAuth } from '@/components/hoc/with-auth';
-import { Button, Form, Image, Input, Radio } from '@nutui/nutui-react-taro';
+import { Button, Form, Input, Radio, Uploader } from '@nutui/nutui-react-taro';
+import Taro from '@tarojs/taro';
 import { useState } from 'react';
 import styles from './index.module.scss';
 
 const UserInfoEdit = () => {
   const [addressVisible, setAddressVisible] = useState(false);
-  const { user } = useAuth();
+  const { user, refresh, setUser } = useAuth();
   const [form] = Form.useForm();
-  /*   const handleUpload = () => {
-    console.log(1);
-    Taro.chooseMedia({
-      count: 1,
-      sizeType: ['original'],
-      success: (e) => console.log(e)
-    });
-  }; */
+  const { runAsync: getUserInfoRunAsync } = useGetUserInfo();
+  const { runAsync: updateRunAsync } = useUpdateUserInfo();
   return (
     <>
       <div className={styles.container}>
@@ -27,15 +22,19 @@ const UserInfoEdit = () => {
         <div className={styles.userEditForm}>
           <Form
             className={styles.form}
-            // initialValues={{
-            //   nickName: user?.nickName,
-            //   gender: user?.gender,
-            //   province: [user?.province, user?.city],
-            //   coding: '无编程基础'
-            // }}
             form={form}
-            onFinish={(val) => {
-              console.log(val);
+            onFinish={async (val) => {
+              const province = val?.province?.[0];
+              const city = val?.province?.[1];
+              const resp = await updateRunAsync({ _openid: user?._openid, ...val, province, city });
+              if (resp.stats.updated === 1) {
+                Taro.showToast({
+                  title: '信息修改成功',
+                  duration: 1500
+                });
+                const resUser = await getUserInfoRunAsync({ _openid: user?._openid });
+                setUser(resUser);
+              }
             }}
             footer={
               <>
@@ -45,30 +44,34 @@ const UserInfoEdit = () => {
               </>
             }
           >
-            <Image
-              src={user?.avatarUrl}
-              className={styles.image}
-              radius="50%"
-              width="80"
-              height="80"
-              fadeIn
-            />
-            <Form.Item
-              required
-              label="昵称"
-              name="nickName"
-              initialValue={user?.nickName}
-              //rules={[{ required: true, message: '请输入昵称' }]}
-            >
+            <Form.Item name="avatarUrl">
+              {/*               <Image
+                src={user?.avatarUrl}
+                className={styles.image}
+                radius="50%"
+                width="80"
+                height="80"
+                fadeIn
+              /> */}
+              <Uploader
+                className={styles.image}
+                defaultValue={[
+                  {
+                    name: user?.nickName,
+                    url: user?.avatarUrl,
+                    status: 'success',
+                    message: '上传成功',
+                    type: 'image',
+                    uid: user?._openid || ''
+                  }
+                ]}
+                url="#"
+              />
+            </Form.Item>
+            <Form.Item required label="昵称" name="nickName" initialValue={user?.nickName}>
               <Input className="nut-input-text" placeholder="请输入昵称" type="text" />
             </Form.Item>
-            <Form.Item
-              required
-              label="性别"
-              name="gender"
-              initialValue={user?.gender}
-              //rules={[{ required: true, message: '请输入性别' }]}
-            >
+            <Form.Item required label="性别" name="gender" initialValue={user?.gender}>
               <Radio.Group direction="horizontal" className={styles.Radio}>
                 <Radio value={0}>男</Radio>
                 <Radio value={1}>女</Radio>
@@ -80,7 +83,6 @@ const UserInfoEdit = () => {
               name="province"
               onClick={() => setAddressVisible(true)}
               initialValue={[user?.province, user?.city]}
-              //rules={[{ required: true, message: '请选择地址' }]}
             >
               <MyAddress
                 visible={addressVisible}
@@ -90,12 +92,7 @@ const UserInfoEdit = () => {
                 }}
               />
             </Form.Item>
-            <Form.Item
-              required
-              label="编程基础"
-              name="coding"
-              //rules={[{ required: true, message: '请选择您的编程基础' }]}
-            >
+            <Form.Item required label="编程基础" name="coding" initialValue={user?.coding}>
               <Radio.Group direction="horizontal" className={styles.Radio}>
                 <Radio value="无编程基础">{'无编程基础'}</Radio>
                 <Radio value="< 1年编程基础">{'< 1年编程基础'}</Radio>

@@ -98,6 +98,12 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
             title: logoutSuccessMsg,
             duration: 1500
           });
+        },
+        fail: function (res) {
+          Taro.showToast({
+            title: logoutErrorMsg,
+            duration: 1500
+          });
         }
       });
     } catch {}

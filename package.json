@@ -80,6 +80,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-intl": "^6.5.1",
+    "wx-server-sdk": "^2.6.3",
     "x-star-query": "^0.0.1",
     "x-star-utils": "^0.0.9"
   },

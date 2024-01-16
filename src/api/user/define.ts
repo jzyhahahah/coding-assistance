@@ -8,8 +8,23 @@ export interface LoginRespones {
   user: UserInfo;
 }
 export interface getUserInfoRequest {
-  _openid: string;
+  _openid?: string;
 }
 export interface getUserInfoRespones {
   user: UserInfo;
+}
+
+export interface updateUserInfoRequest {
+  _openid: string;
+  nickName?: string;
+  gender?: number;
+  province?: string[];
+  coding?: string;
+}
+
+export interface updateUserInfoRespones {
+  errMsg: string;
+  stats: {
+    updated: number;
+  };
 }
