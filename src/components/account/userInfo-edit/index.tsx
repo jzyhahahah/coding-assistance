@@ -65,6 +65,7 @@ const UserInfoEdit = () => {
                 height="80"
                 fadeIn
               /> */}
+
               <Uploader
                 className={styles.image}
                 defaultValue={[
