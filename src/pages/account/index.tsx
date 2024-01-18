@@ -35,6 +35,7 @@ const Account = () => {
       url: '/components/account/userInfo-edit/index'
     });
   };
+  console.log(user);
 
   return (
     <div className={styles.account} style={{ height }}>

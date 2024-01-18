@@ -26,8 +26,20 @@ const UserInfoEdit = () => {
             onFinish={async (val) => {
               const province = val?.province?.[0];
               const city = val?.province?.[1];
-              const resp = await updateRunAsync({ _openid: user?._openid, ...val, province, city });
-              if (resp.stats.updated === 1) {
+              //let imgBase64 : string | ArrayBuffer;
+              const imgBase64 = val?.avatarUrl?.[0]?.path
+                ? Taro.getFileSystemManager().readFileSync(val?.avatarUrl?.[0]?.path, 'base64')
+                : undefined;
+              //console.log(imgBase64)
+              const resp = await updateRunAsync({
+                _openid: user?._openid,
+                ...val,
+                province,
+                city,
+                avatarUrl: imgBase64,
+                oldAvaUrl: user?.avatarUrl
+              });
+              if (resp.errMsg === 'collection.update:ok') {
                 Taro.showToast({
                   title: '信息修改成功',
                   duration: 1500

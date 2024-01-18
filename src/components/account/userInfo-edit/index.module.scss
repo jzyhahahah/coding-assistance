@@ -25,7 +25,13 @@
       padding: 10px;
 
       .image {
-        margin: 0 auto;
+        :global(.nut-uploader__preview) {
+          margin: 0 auto;
+        }
+
+        :global(.nut-uploader__upload) {
+          margin: 0 auto;
+        }
       }
     }
   }

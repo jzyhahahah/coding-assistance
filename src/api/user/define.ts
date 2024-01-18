@@ -20,6 +20,8 @@ export interface updateUserInfoRequest {
   gender?: number;
   province?: string[];
   coding?: string;
+  avatarUrl?: string | ArrayBuffer;
+  oldAvaUrl?: string;
 }
 
 export interface updateUserInfoRespones {

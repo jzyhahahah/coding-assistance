@@ -13,8 +13,24 @@ exports.main = async (event, context) => {
         gender,
         nickName,
         province,
-        city
+        city,
+        avatarUrl,
+        oldAvaUrl
     } = event;
+    let avatarID;
+    try {
+        const res = await cloud.deleteFile({
+            fileList:[oldAvaUrl]
+        });
+        console.log(res)
+        const uploadResult = await cloud.uploadFile({
+            cloudPath: `avatar/${_openid}/${new Date().getTime()}.png`,
+            fileContent: new Buffer(avatarUrl, 'base64')
+        })
+        avatarID = uploadResult.fileID;
+    } catch (e) {
+        //throw e;
+    }
     return await db.collection("userInfo").where({
         _openid: _openid
     }).update({
@@ -23,7 +39,8 @@ exports.main = async (event, context) => {
             gender,
             nickName,
             province,
-            city: city ?? ""
+            city: city ?? "",
+            avatarUrl:avatarID
         }
     })
 }
