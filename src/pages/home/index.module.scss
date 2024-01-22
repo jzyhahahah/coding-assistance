@@ -1,8 +1,31 @@
 .container {
-  padding: 10px;
+  padding: 13px 20px 20px;
   background-color: rgb(255 223 15);
 
-  .topCodingExp {
+  .topUserName {
     font-size: 20px;
+    color: #333;
+    line-height: 28px;
+  }
+
+  .topCodingExp {
+    font-size: 16px;
+    color: #666;
+    line-height: 28px;
+  }
+
+  .leftProgress {
+    margin-top: 30px;
+
+    .staticsNumber {
+      display: flex;
+      align-items: center;
+      color: #333;
+
+      .mainNumber {
+        margin-right: 10px;
+        font-size: 24px;
+      }
+    }
   }
 }
