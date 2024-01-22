@@ -25,7 +25,7 @@ exports.main = async (event, context) => {
         console.log(res)
         const uploadResult = await cloud.uploadFile({
             cloudPath: `avatar/${_openid}/${new Date().getTime()}.png`,
-            fileContent: new Buffer(avatarUrl, 'base64')
+            fileContent: Buffer.from(avatarUrl, 'base64')
         })
         avatarID = uploadResult.fileID;
     } catch (e) {
