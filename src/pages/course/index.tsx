@@ -1,35 +1,47 @@
-import { Button } from '@nutui/nutui-react-taro';
-import { Text, View } from '@tarojs/components';
-import Taro, { useLoad } from '@tarojs/taro';
-import './index.scss';
+import { useGetAllCourse } from '@/api/course/getAllCourse';
+import CourseCard from '@/components/course/course-card';
+import { SearchBar, Skeleton, Space } from '@nutui/nutui-react-taro';
+import { View } from '@tarojs/components';
+import styles from './index.module.scss';
 
 const Course = () => {
-  useLoad(() => {
-    console.log('Page loaded.');
-  });
+  const { data: allCourses, runAsync: getSearchedCoures, loading } = useGetAllCourse();
 
   return (
-    <View className="index">
-      <Text>course</Text>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <div>course</div>
-      <Button
-        onClick={() => {
-          Taro.navigateTo({ url: '/pages/course/index' });
-        }}
-      >
-        jump
-      </Button>
-      <Button type="primary">course主要按钮</Button>
+    <View className={styles.container}>
+      <View className={styles.topSearch}>
+        <SearchBar
+          shape="round"
+          maxLength={20}
+          placeholder="请输入课程名称"
+          onChange={(value) => {
+            getSearchedCoures({ courseName: value });
+          }}
+        />
+      </View>
+      <View className={styles.courseList}>
+        {loading ? (
+          <Skeleton rows={20} title animated className={styles.skeleton} />
+        ) : (
+          <Space direction="vertical" style={{ gap: 8 }}>
+            {allCourses?.list?.map((item) => {
+              return (
+                <CourseCard key={item.courseId} courseName={item.courseName} tags={item.tags} />
+              );
+            })}
+            {allCourses?.list?.map((item) => {
+              return (
+                <CourseCard key={item.courseId} courseName={item.courseName} tags={item.tags} />
+              );
+            })}
+            {allCourses?.list?.map((item) => {
+              return (
+                <CourseCard key={item.courseId} courseName={item.courseName} tags={item.tags} />
+              );
+            })}
+          </Space>
+        )}
+      </View>
     </View>
   );
 };

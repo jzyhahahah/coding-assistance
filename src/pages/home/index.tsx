@@ -1,3 +1,5 @@
+import { useGetAllCourse } from '@/api/course/getAllCourse';
+import { useGetAllMyCourse } from '@/api/course/getMyCourses';
 import swiper1 from '@/assets/swiper/swiper-1.jpg';
 import swiper2 from '@/assets/swiper/swiper-2.jpg';
 import swiper3 from '@/assets/swiper/swiper-3.jpg';
@@ -11,6 +13,8 @@ import styles from './index.module.scss';
 const Home = () => {
   //const { lang, toggle, format: t } = useLang();
   const swipers = [swiper1, swiper2, swiper3, swiper4];
+  const { data: allCourses } = useGetAllCourse();
+  const { data: myCourse } = useGetAllMyCourse();
   const { user } = useAuth();
   return (
     <>
@@ -74,16 +78,26 @@ const Home = () => {
         <Tabs activeType="smile" className={styles.tabs}>
           <Tabs.TabPane title="我的课程">
             <Space direction="vertical" style={{ gap: 8 }}>
-              <CourseCard courseName={'C++基础'} tags={['基础', '初学者']} progress={50} />
-              <CourseCard courseName={'C++基础'} tags={['基础', '初学者']} progress={50} />
-              <CourseCard courseName={'C++基础'} tags={['基础', '初学者']} progress={50} />
+              {myCourse?.list?.map((item) => {
+                return (
+                  <CourseCard
+                    key={item.courseId}
+                    courseName={item.courseName}
+                    tags={item.tags}
+                    progress={item?.progress}
+                  />
+                );
+              })}
             </Space>
           </Tabs.TabPane>
-          <Tabs.TabPane title="其他课程">
-            <CourseCard courseName={'C++基础'} tags={['基础', '初学者']} progress={0} />
-          </Tabs.TabPane>
           <Tabs.TabPane title="全部课程">
-            <CourseCard courseName={'C++基础'} tags={['基础', '初学者']} progress={100} />
+            <Space direction="vertical">
+              {allCourses?.list?.map((item) => {
+                return (
+                  <CourseCard key={item.courseId} courseName={item.courseName} tags={item.tags} />
+                );
+              })}
+            </Space>
           </Tabs.TabPane>
         </Tabs>
       </View>

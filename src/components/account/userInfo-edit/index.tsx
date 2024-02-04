@@ -57,15 +57,6 @@ const UserInfoEdit = () => {
             }
           >
             <Form.Item name="avatarUrl">
-              {/*               <Image
-                src={user?.avatarUrl}
-                className={styles.image}
-                radius="50%"
-                width="80"
-                height="80"
-                fadeIn
-              /> */}
-
               <Uploader
                 className={styles.image}
                 defaultValue={[

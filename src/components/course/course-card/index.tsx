@@ -17,7 +17,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ courseName, tags, progress, src
         <View className={styles.courseCard}>
           <Space direction="vertical">
             <View className={styles.courseName}>{courseName}</View>
-            <Space className={styles.courseTagContainer}>
+            <Space className={styles.courseTagContainer} wrap>
               {tags?.map((item, index) => {
                 return (
                   <Tag key={index} type="info">
@@ -26,16 +26,17 @@ const CourseCard: React.FC<CourseCardProps> = ({ courseName, tags, progress, src
                 );
               })}
             </Space>
-            <Progress
-              percent={progress}
-              color="rgb(255 223 15)"
-              showText
-              strokeWidth="5"
-              animated
-            />
+            {progress && (
+              <Progress
+                percent={progress}
+                color="rgb(255 223 15)"
+                showText
+                strokeWidth="5"
+                animated
+              />
+            )}
           </Space>
         </View>
-        {/* <Divider style={{ borderColor: '#cccccc' }} /> */}
       </View>
     </>
   );

@@ -9,21 +9,21 @@ var $ = cloud.database().command.aggregate
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-    // const withProgress = event.withProgress;
-    // if (!withProgress) {
-    //     return await db.collection("course").get();
-    // } else {
-    //     return await db.collection("course").aggregate().
-    //     lookup({
-    //         from: "courseProgress",
-    //         localField: "_id",
-    //         foreignField: "courseId",
-    //         as: 'userProgress'
-    //     }).match({
-    //         userProgress: {
-    //             userId: event.userInfo.openId
-    //         }
-    //     }).end()
-    // }
-    return await db.collection("course").get();
+    const courseName = event?.courseName;
+    const result = await db.collection("course").aggregate()
+        .match({
+            courseName: courseName ? db.RegExp({
+                regexp: courseName,
+                //从搜索栏中获取的value作为规则进行匹配。
+                options: 'i',
+                //大小写不区分
+            }) : undefined,
+        })
+        .addFields({
+            courseId: '$_id'
+        })
+        .project({
+            _id: 0
+        }).end();
+    return result
 }
