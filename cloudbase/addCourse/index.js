@@ -1,39 +1,40 @@
 // 云函数入口文件
-const cloud = require('wx-server-sdk')
+const cloud = require('wx-server-sdk');
 
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
-}) // 使用当前云环境
+}); // 使用当前云环境
 const db = cloud.database();
-var $ = cloud.database().command.aggregate
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+  const wxContext = cloud.getWXContext();
   const userId = wxContext.OPENID;
   const courseId = event.courseId;
-  const hasChoosed = await db.collection('courseProgress')
+  const hasChoosed = await db
+    .collection('courseProgress')
     .where({
       userId,
       courseId
-    }).get();
+    })
+    .get();
   if (hasChoosed.data.length !== 0) {
-    return db.collection("courseProgress")
+    return db
+      .collection('courseProgress')
       .where({
         userId,
         courseId
       })
       .update({
         progress: 0
-      })
+      });
   } else {
-    return db.collection("courseProgress")
-      .add({
-        data: {
-          userId,
-          courseId,
-          progress: 0
-        }
-      })
+    return db.collection('courseProgress').add({
+      data: {
+        userId,
+        courseId,
+        progress: 0
+      }
+    });
   }
-}
+};
