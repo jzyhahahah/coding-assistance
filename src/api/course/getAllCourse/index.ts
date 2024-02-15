@@ -16,7 +16,6 @@ export const useGetAllCourse = () => {
   return useRequest(
     async (params: getAllCourseRequest) => {
       const reps = await getAllCourseCloudFunction(params);
-      console.log(reps);
       return reps.list;
     },
     {
