@@ -16,11 +16,11 @@ export const useGetAllCourse = () => {
   return useRequest(
     async (params: getAllCourseRequest) => {
       const reps = await getAllCourseCloudFunction(params);
-      return reps;
+      console.log(reps);
+      return reps.list;
     },
     {
-      debounceWait: 1500,
-      manual: true
+      debounceWait: 1500
     }
   );
 };

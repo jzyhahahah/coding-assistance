@@ -24,7 +24,7 @@ const Course = () => {
           <Skeleton rows={20} title animated className={styles.skeleton} />
         ) : (
           <Space direction="vertical" style={{ gap: 8 }}>
-            {allCourses?.list?.map((item) => {
+            {allCourses?.map((item) => {
               return (
                 <CourseCard
                   key={item.courseId}
