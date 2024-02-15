@@ -19,7 +19,8 @@ export const useGetAllCourse = () => {
       return reps;
     },
     {
-      debounceWait: 1500
+      debounceWait: 1500,
+      manual: true
     }
   );
 };

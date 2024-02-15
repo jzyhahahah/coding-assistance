@@ -5,6 +5,7 @@ export default defineAppConfig({
     'pages/activity/index',
     'pages/account/index',
     'pages/login/index',
+    'pages/course-detail/index',
     'components/account/settings/index',
     'components/account/userInfo-edit/index'
   ],

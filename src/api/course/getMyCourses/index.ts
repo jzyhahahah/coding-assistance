@@ -10,8 +10,13 @@ export const getAllMyCourseCloudFunction = async (): Promise<getAllMyCourseRespo
 };
 
 export const useGetAllMyCourse = () => {
-  return useRequest(async () => {
-    const reps = await getAllMyCourseCloudFunction();
-    return reps;
-  });
+  return useRequest(
+    async () => {
+      const reps = await getAllMyCourseCloudFunction();
+      return reps;
+    },
+    {
+      manual: true
+    }
+  );
 };

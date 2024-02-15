@@ -26,17 +26,12 @@ const Course = () => {
           <Space direction="vertical" style={{ gap: 8 }}>
             {allCourses?.list?.map((item) => {
               return (
-                <CourseCard key={item.courseId} courseName={item.courseName} tags={item.tags} />
-              );
-            })}
-            {allCourses?.list?.map((item) => {
-              return (
-                <CourseCard key={item.courseId} courseName={item.courseName} tags={item.tags} />
-              );
-            })}
-            {allCourses?.list?.map((item) => {
-              return (
-                <CourseCard key={item.courseId} courseName={item.courseName} tags={item.tags} />
+                <CourseCard
+                  key={item.courseId}
+                  courseName={item.courseName}
+                  tags={item.tags}
+                  courseID={item.courseId}
+                />
               );
             })}
           </Space>

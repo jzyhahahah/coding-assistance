@@ -1,0 +1,28 @@
+.video {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  height: 200px;
+}
+
+.courseDir {
+  position: relative;
+  top: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 20px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 18px;
+  text-align: center;
+  color: #333;
+  background-color: #ffdf0f;
+  box-shadow: rgb(0 0 0 / 15%) 1.95px 1.95px 2.6px;
+  vertical-align: baseline;
+}
+
+.fragmentContainer {
+  position: relative;
+  top: 200px;
+}

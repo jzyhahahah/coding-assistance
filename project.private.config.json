@@ -10,6 +10,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/course-detail/index",
+          "pathName": "pages/course-detail/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "components/account/userInfo-edit/index",
           "pathName": "components/account/userInfo-edit/index",
           "query": "",

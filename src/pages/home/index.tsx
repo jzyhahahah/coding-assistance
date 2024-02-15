@@ -8,14 +8,21 @@ import CourseCard from '@/components/course/course-card';
 import { useAuth } from '@/components/hoc/with-auth';
 import { Button, Grid, Progress, Space, Swiper, Tabs } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
+import { useDidShow } from '@tarojs/taro';
 import styles from './index.module.scss';
 
 const Home = () => {
   //const { lang, toggle, format: t } = useLang();
   const swipers = [swiper1, swiper2, swiper3, swiper4];
-  const { data: allCourses } = useGetAllCourse();
-  const { data: myCourse } = useGetAllMyCourse();
+  const { data: allCourses, runAsync: getAll } = useGetAllCourse();
+  const { data: myCourse, runAsync: getMy } = useGetAllMyCourse();
   const { user } = useAuth();
+
+  useDidShow(() => {
+    getAll({ courseName: undefined });
+    getMy();
+  });
+
   return (
     <>
       <View className={styles.container}>
@@ -82,6 +89,7 @@ const Home = () => {
                 return (
                   <CourseCard
                     key={item.courseId}
+                    courseID={item.courseId}
                     courseName={item.courseName}
                     tags={item.tags}
                     progress={item?.progress}
@@ -94,7 +102,12 @@ const Home = () => {
             <Space direction="vertical">
               {allCourses?.list?.map((item) => {
                 return (
-                  <CourseCard key={item.courseId} courseName={item.courseName} tags={item.tags} />
+                  <CourseCard
+                    key={item.courseId}
+                    courseName={item.courseName}
+                    tags={item.tags}
+                    courseID={item.courseId}
+                  />
                 );
               })}
             </Space>
