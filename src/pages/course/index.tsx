@@ -14,6 +14,9 @@ const Course = () => {
           shape="round"
           maxLength={20}
           placeholder="请输入课程名称"
+          onClear={() => {
+            getSearchedCoures({ courseName: '' });
+          }}
           onChange={(value) => {
             getSearchedCoures({ courseName: value });
           }}

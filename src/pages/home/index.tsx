@@ -100,7 +100,7 @@ const Home = () => {
           </Tabs.TabPane>
           <Tabs.TabPane title="全部课程">
             <Space direction="vertical">
-              {allCourses?.list?.map((item) => {
+              {allCourses?.map((item) => {
                 return (
                   <CourseCard
                     key={item.courseId}
