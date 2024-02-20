@@ -1,5 +1,6 @@
 import { useAddCourse } from '@/api/course/addCourse';
 import { useGetCourseFragment } from '@/api/course/getCourseFragment';
+import { useUpdateCourseProgress } from '@/api/course/updateCourseProgress';
 import CourseFragmentCard from '@/components/course/course-fragment-card';
 import { Loading1, PlayCircleFill } from '@nutui/icons-react-taro';
 import { Dialog, Skeleton, Video } from '@nutui/nutui-react-taro';
@@ -24,6 +25,7 @@ const CourseDetail = () => {
   const [visible, setVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(1);
   const { runAsync: addCourse } = useAddCourse();
+  const { runAsync: updateCourseFragment } = useUpdateCourseProgress();
   const options = {
     controls: true
   };
@@ -36,6 +38,14 @@ const CourseDetail = () => {
     setVisible(fragments?.errMsg === 'NoChoosed');
   }, [fragments, selectedIndex]);
 
+  const handleUpdateCourseProgress = async () => {
+    const fragmentId = fragments?.list?.[selectedIndex - 1]?.fragmentId || '';
+    updateCourseFragment({
+      courseId: route?.params?.courseId || '',
+      fragmentId
+    });
+  };
+
   return (
     <>
       <View>
@@ -44,11 +54,12 @@ const CourseDetail = () => {
           source={source}
           style={{ height: '200px' }}
           className={styles.video}
+          onPlayEnd={handleUpdateCourseProgress}
         />
         <View className={styles.courseDir}>{'课程目录'}</View>
         <View className={styles.fragmentContainer}>
           {loading ? (
-            <Skeleton rows={10} title animated />
+            <Skeleton rows={10} animated />
           ) : fragments?.errMsg !== 'NoChoosed' ? (
             fragments?.list.map((item, index) => (
               <CourseFragmentCard
@@ -76,7 +87,7 @@ const CourseDetail = () => {
               visible={visible}
               onConfirm={async () => {
                 setVisible(false);
-                const res = await addCourse({ courseId: route.params.courseId || '' });
+                const res = await addCourse({ courseId: route?.params?.courseId || '' });
                 if (res?.errMsg.indexOf('ok') !== -1) {
                   Taro.showToast({
                     title: '选择成功',

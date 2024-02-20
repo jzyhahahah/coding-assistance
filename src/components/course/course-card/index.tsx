@@ -37,7 +37,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ courseID, courseName, tags, pro
             </Space>
             {progress !== undefined && (
               <Progress
-                percent={progress}
+                percent={Number(progress.toFixed(2)) * 100}
                 color="rgb(255 223 15)"
                 showText
                 strokeWidth="5"
