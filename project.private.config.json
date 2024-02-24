@@ -10,6 +10,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/problem-bank/index",
+          "pathName": "pages/problem-bank/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/course-detail/index",
           "pathName": "pages/course-detail/index",
           "query": "",

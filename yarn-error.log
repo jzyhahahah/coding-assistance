@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add @nutui/icons-react-taro
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add x-star-editor
 
 PATH: 
   C:\ProgramData\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\opencv\build\x64\vc15\bin;C:\Program Files\Java\jdk1.8.0_102\bin;C:\Program Files\Java\jre1.8.0_102\bin;C:\Program Files\mingw-w64\mingw64\bin;C:\Users\15282\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Users\15282\anaconda3;C:\Users\15282\anaconda3\Library\mingw-w64\bin;C:\Users\15282\anaconda3\Library\usr\bin;C:\Users\15282\anaconda3\Library\bin;C:\Users\15282\anaconda3\Scripts;C:\Users\15282\AppData\Local\Microsoft\WindowsApps;C:\Users\15282\.dotnet\tools;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1.2\bin;;C:\Users\15282\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\mongodb-windows-x86_64-5.0.15\mongodb-win32-x86_64-windows-5.0.15\bin;C:\Users\15282\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\ffmpeg-6.0-essentials_build\bin;
@@ -79,7 +79,7 @@ npm manifest:
     "author": "",
     "dependencies": {
       "@babel/runtime": "^7.21.5",
-      "@nutui/nutui-react-taro": "^2.0.21",
+      "@nutui/nutui-react-taro": "^2.3.11",
       "@tarojs/components": "3.6.17",
       "@tarojs/helper": "3.6.17",
       "@tarojs/plugin-framework-react": "3.6.17",
@@ -96,6 +96,7 @@ npm manifest:
       "@tarojs/runtime": "3.6.17",
       "@tarojs/shared": "3.6.17",
       "@tarojs/taro": "3.6.17",
+      "@types/sass": "^1.45.0",
       "ahooks": "^3.7.8",
       "axios": "^1.5.1",
       "axios-miniprogram-adapter": "^0.3.5",
@@ -1353,6 +1354,13 @@ Lockfile:
     dependencies:
       regenerator-runtime "^0.14.0"
   
+  "@babel/runtime@^7.23.9":
+    version "7.23.9"
+    resolved "https://registry.npmmirror.com/@babel/runtime/-/runtime-7.23.9.tgz#47791a15e4603bb5f905bc0753801cf21d6345f7"
+    integrity sha512-0CX6F+BI2s9dkUqr08KFrAIZgNFj75rdBU/DjCyYLIaV/quFjkk6T+EJ2LkZHyZTbEV4L5p97mNkUsHl2wLFAw==
+    dependencies:
+      regenerator-runtime "^0.14.0"
+  
   "@babel/template@^7.0.0", "@babel/template@^7.22.15", "@babel/template@^7.3.3":
     version "7.22.15"
     resolved "https://registry.npmmirror.com/@babel/template/-/template-7.22.15.tgz#09576efc3830f0430f4548ef971dde1350ef2f38"
@@ -2059,23 +2067,23 @@ Lockfile:
       "@nodelib/fs.scandir" "2.1.5"
       fastq "^1.6.0"
   
-  "@nutui/icons-react-taro@^0.0.4":
-    version "0.0.4"
-    resolved "https://registry.npmmirror.com/@nutui/icons-react-taro/-/icons-react-taro-0.0.4.tgz#ad6e7b94b522791c021ba349395fb7b139111d44"
-    integrity sha512-29XhXpYb1x/lsWGKudho0sKTQZi1B9bbMDo70UxfxSD34rNiHIthHJeLcKc++aLMxu88cVPWD+qwt4AQQf8lBw==
+  "@nutui/icons-react-taro@^1.0.2":
+    version "1.0.2"
+    resolved "https://registry.npmmirror.com/@nutui/icons-react-taro/-/icons-react-taro-1.0.2.tgz#af62fe7f2e48c06507f003283c75ee600ee33372"
+    integrity sha512-qn5rBdsPleejZ+5u/gTUoi9vPY32UCTnpxuArha1ZL7LS+kk/5E1ECKLDv0Sh5q87PaCpYfe9wMyGENREnHBgw==
   
-  "@nutui/nutui-react-taro@^2.0.21":
-    version "2.2.0"
-    resolved "https://registry.npmmirror.com/@nutui/nutui-react-taro/-/nutui-react-taro-2.2.0.tgz#0d7300d936c55fa8913931292c4be5cd7f34d3df"
-    integrity sha512-OiLnyi2Hk4sUvDu75na6xcYDFGqg2vVBjstu9OB/q5zAKU//ZpAU+lOBm01UJMQglD1HNClkmJq08RWh9Dcq9Q==
+  "@nutui/nutui-react-taro@^2.3.11":
+    version "2.3.11"
+    resolved "https://registry.npmmirror.com/@nutui/nutui-react-taro/-/nutui-react-taro-2.3.11.tgz#1810e0a7b89fac81ff2e302db1b99b7f9260da32"
+    integrity sha512-mh7WySdzdCjgThz/zSoFHZcZWXTE/cRRnMmyx6oYqbJHY2LHmPxaQYY/n0uA7on2F0DVcSQkcQrNMYPaYZ+CLw==
     dependencies:
-      "@babel/runtime" "^7.21.0"
-      "@nutui/icons-react-taro" "^0.0.4"
+      "@babel/runtime" "^7.23.9"
+      "@nutui/icons-react-taro" "^1.0.2"
       "@nutui/touch-emulator" "^1.0.0"
       "@react-spring/web" "~9.6.1"
       "@use-gesture/react" "10.2.20"
       async-validator "^4.2.5"
-      classnames "^2.3.2"
+      classnames "^2.5.1"
       lodash.isequal "^4.5.0"
       lodash.kebabcase "^4.1.1"
       react-transition-group "^4.4.5"
@@ -3382,7 +3390,7 @@ Lockfile:
     resolved "https://registry.npmmirror.com/@types/retry/-/retry-0.12.5.tgz#f090ff4bd8d2e5b940ff270ab39fd5ca1834a07e"
     integrity sha512-3xSjTp3v03X/lSQLkczaN9UIEwJMoMCA1+Nb5HfbJEQWogdeQIyVtTvxPXDQjZ5zws8rFQfVfRdz03ARihPJgw==
   
-  "@types/sass@^1.16.0":
+  "@types/sass@^1.16.0", "@types/sass@^1.45.0":
     version "1.45.0"
     resolved "https://registry.npmmirror.com/@types/sass/-/sass-1.45.0.tgz#a949eb1e080ff34715e6c2040357b940bffb89bb"
     integrity sha512-jn7qwGFmJHwUSphV8zZneO3GmtlgLsmhs/LQyVvQbIIa+fzGMUiHI4HXJZL3FT8MJmgXWbLGiVVY7ElvHq6vDA==
@@ -4913,10 +4921,15 @@ Lockfile:
     resolved "https://registry.npmmirror.com/cjs-module-lexer/-/cjs-module-lexer-1.2.3.tgz#6c370ab19f8a3394e318fe682686ec0ac684d107"
     integrity sha512-0TNiGstbQmCFwt4akjjBg5pLRTSyj/PkWQ1ZoO2zntmg9yLqSRxwEa4iCfQLGjqhiqBfOJa7W/E8wfGrTDmlZQ==
   
-  classnames@^2.2.5, classnames@^2.3.2:
+  classnames@^2.2.5:
     version "2.3.2"
     resolved "https://registry.npmmirror.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
     integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
+  
+  classnames@^2.5.1:
+    version "2.5.1"
+    resolved "https://registry.npmmirror.com/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
+    integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
   
   clean-css@^4.2.1:
     version "4.2.4"

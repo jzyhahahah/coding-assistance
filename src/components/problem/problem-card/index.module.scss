@@ -1,0 +1,57 @@
+.container {
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+
+  .topInfo {
+    display: flex;
+    justify-content: space-around;
+    padding: 4px 0;
+    width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+
+    .ellipse {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: break-all;
+    }
+
+    .textLabel {
+      font-size: 14px;
+      color: rgb(153 153 153);
+    }
+
+    .textValue {
+      width: 50px;
+      font-size: 14px;
+      color: rgb(102 102 102);
+    }
+  }
+
+  .questionViewer {
+    padding: 10px 20px;
+  }
+
+  .divider {
+    --nutui-divider-margin: 5px 0 !important;
+  }
+
+  .bottomInfo {
+    padding: 5px 20px;
+    width: 100%;
+
+    // display: flex;
+    // justify-content: space-between;
+    .textLabel {
+      font-size: 14px;
+      color: rgb(153 153 153);
+    }
+
+    .textValue {
+      width: 70vw;
+      font-size: 14px;
+      white-space: pre-wrap;
+      color: rgb(102 102 102);
+    }
+  }
+}

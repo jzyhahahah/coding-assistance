@@ -8,7 +8,7 @@ import CourseCard from '@/components/course/course-card';
 import { useAuth } from '@/components/hoc/with-auth';
 import { Button, Grid, Progress, Space, Swiper, Tabs } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
-import { useDidShow } from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 import styles from './index.module.scss';
 
 const Home = () => {
@@ -55,7 +55,12 @@ const Home = () => {
       <View className={styles.bottomContainer}>
         <Grid className={styles.linkBtns} columns={2}>
           <Grid.Item>
-            <Button className={styles.linkBtn}>试题库</Button>
+            <Button
+              className={styles.linkBtn}
+              onClick={() => Taro.navigateTo({ url: '/pages/problem-bank/index' })}
+            >
+              试题库
+            </Button>
           </Grid.Item>
           <Grid.Item>
             <Button className={styles.linkBtn}>错题本</Button>

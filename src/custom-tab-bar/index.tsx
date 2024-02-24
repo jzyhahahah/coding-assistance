@@ -1,6 +1,6 @@
 import { useGlobalState } from '@/components/hoc/with-global-state/define';
 import { useLang } from '@/components/hoc/with-lang/define';
-import { Category, Find, Home, My } from '@nutui/icons-react-taro';
+import { Category, Find, Home, User } from '@nutui/icons-react-taro';
 import { Tabbar } from '@nutui/nutui-react-taro';
 import Taro from '@tarojs/taro';
 
@@ -28,7 +28,7 @@ const CustomTabBar = () => {
     {
       path: '/pages/account/index',
       title: t('Account'),
-      icon: <My size={18} />
+      icon: <User size={18} />
     }
   ];
 
@@ -41,7 +41,13 @@ const CustomTabBar = () => {
   };
 
   return (
-    <Tabbar value={selectedTab} onSwitch={onSwitch} safeArea inactiveColor="#7d7e80" activeColor="#1989fa">
+    <Tabbar
+      value={selectedTab}
+      onSwitch={onSwitch}
+      safeArea
+      inactiveColor="#7d7e80"
+      activeColor="#1989fa"
+    >
       {tabs.map((v) => (
         <Tabbar.Item key={v.path} title={v.title} icon={v.icon} value={v?.value} />
       ))}

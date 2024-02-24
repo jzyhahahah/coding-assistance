@@ -1,7 +1,7 @@
 import consultQr from '@/assets/consult_qr.png';
 import { useGetSafeHeight } from '@/common/hooks';
 import { useAuth } from '@/components/hoc/with-auth';
-import { Message, RectRight, Setting, Star } from '@nutui/icons-react-taro';
+import { Category, Message, Setting, Star } from '@nutui/icons-react-taro';
 import { Avatar, Button, Cell, Dialog } from '@nutui/nutui-react-taro';
 import { Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
@@ -54,7 +54,7 @@ const Account = () => {
           </div>
         }
         onClick={() => setContactShow(true)}
-        extra={<RectRight />}
+        extra={<Category />}
       />
       <Cell.Group>
         <Cell
@@ -63,7 +63,7 @@ const Account = () => {
               <Star size="16" /> 我是标题
             </div>
           }
-          extra={<RectRight />}
+          extra={<Category />}
         />
         <Cell
           title={
@@ -71,7 +71,7 @@ const Account = () => {
               <Star size="16" /> 我是标题
             </div>
           }
-          extra={<RectRight />}
+          extra={<Category />}
         />
         <Cell
           title={
@@ -79,7 +79,7 @@ const Account = () => {
               <Star size="16" /> 我是标题
             </div>
           }
-          extra={<RectRight />}
+          extra={<Category />}
         />
         <Cell
           title={
@@ -87,7 +87,7 @@ const Account = () => {
               <Star size="16" /> 我是标题
             </div>
           }
-          extra={<RectRight />}
+          extra={<Category />}
         />
       </Cell.Group>
       <Cell
@@ -102,7 +102,7 @@ const Account = () => {
             url: '/components/account/settings/index'
           })
         }
-        extra={<RectRight />}
+        extra={<Category />}
       />
       <Dialog
         visible={contactShow}

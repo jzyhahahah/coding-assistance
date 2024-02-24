@@ -6,6 +6,7 @@ export default defineAppConfig({
     'pages/account/index',
     'pages/login/index',
     'pages/course-detail/index',
+    'pages/problem-bank/index',
     'components/account/settings/index',
     'components/account/userInfo-edit/index'
   ],
