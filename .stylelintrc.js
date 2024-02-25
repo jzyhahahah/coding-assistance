@@ -9,18 +9,21 @@ module.exports = {
         ignorePseudoClasses: ['global']
       }
     ], // 忽略 react 中的 global
-    'selector-type-no-unknown': [true, {
-      'ignoreTypes': [
-          '/^page/'
-      ]
-   }],
+    'selector-type-no-unknown': [
+      true,
+      {
+        ignoreTypes: ['/^page/']
+      }
+    ],
     'no-descending-specificity': null, // 取消选择器逐级提高
     'scss/no-global-function-names': null, // 关闭全局函数检测
     'scss/at-extend-no-missing-placeholder': null, // 关闭占位符需求检测
     'font-family-no-missing-generic-family-keyword': null, // font-family 通用字体系列关键字检测关闭
-    "no-invalid-position-at-import-rule": null, // 关闭检测 @import 位置
-    "scss/dollar-variable-pattern": null, // 关闭scss变量命名规则检测
-    'order/properties-order': [ // css属性顺序
+    'no-invalid-position-at-import-rule': null, // 关闭检测 @import 位置
+    'react/prop-types': null,
+    'scss/dollar-variable-pattern': null, // 关闭scss变量命名规则检测
+    'order/properties-order': [
+      // css属性顺序
       'position',
       'top',
       'right',
