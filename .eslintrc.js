@@ -21,6 +21,7 @@ module.exports = {
     'font-family-no-missing-generic-family-keyword': null, // font-family 通用字体系列关键字检测关闭
     'no-invalid-position-at-import-rule': null, // 关闭检测 @import 位置
     'react/prop-types': null,
+    'indent': null, // 关闭缩进检测
     'scss/dollar-variable-pattern': null, // 关闭scss变量命名规则检测
     'order/properties-order': [
       // css属性顺序

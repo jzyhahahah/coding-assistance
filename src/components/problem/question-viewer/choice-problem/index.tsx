@@ -17,7 +17,7 @@ const ChoiceProblemViewer: React.FC<ChoiceProblemViewerProps> = ({
 }) => {
   const [value, setValue] = useState();
   const options = useMemo(() => {
-    return question?.options
+    return question?.option
       ?.map((item, index) => {
         const val = String.fromCharCode('A'.charCodeAt(0) + index);
         const label = item?.choice || '';

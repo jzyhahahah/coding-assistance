@@ -30,7 +30,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
           options
             .filter((item) => answer.includes(item.id))
             .map((ans) => String.fromCharCode('A'.charCodeAt(0) + ans.sequence - 1));
-        return singleChoiceAnswerStr?.join(',');
+        return singleChoiceAnswerStr;
       case 'multipleChoice':
         const multipleChoiceAnswerStr =
           options &&
@@ -39,7 +39,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
             .map((ans) => String.fromCharCode('A'.charCodeAt(0) + ans.sequence - 1));
         return multipleChoiceAnswerStr?.join(',');
       case 'fillInBlank':
-        return answer.join(', ');
+        return answer;
       case 'shortAnswer':
         return '见上';
     }
@@ -86,7 +86,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
         <Space>
           <span className={styles.textLabel}>答案:</span>
           <span className={styles.textValue}>
-            {renderAnswer(question?.type, question?.answer as string[], question?.options || [])}
+            {renderAnswer(question?.type, question?.answer as string[], question?.option || [])}
           </span>
         </Space>
         <Space style={{ marginTop: '5px' }}>

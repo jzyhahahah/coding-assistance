@@ -2,7 +2,7 @@ export interface BaseQuestion {
   _id: string;
   sequence?: number;
   problemStatement: string;
-  options?: ChoiceOption[];
+  option?: ChoiceOption[];
   solution: string;
   creator?: string;
   createAt?: number;

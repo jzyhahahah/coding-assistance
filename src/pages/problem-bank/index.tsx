@@ -1,7 +1,16 @@
+import { useGetProblem } from '@/api/problem/getProblem';
 import ProblemCard from '@/components/problem/problem-card';
-import { Button, Checkbox, Form, SearchBar } from '@nutui/nutui-react-taro';
+import {
+  Button,
+  Checkbox,
+  Form,
+  Pagination,
+  SearchBar,
+  Skeleton,
+  Space
+} from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
 const checkBoxList = [
@@ -32,22 +41,45 @@ const checkBoxList = [
 ];
 
 const ProblemBankPage = () => {
-  const [checkboxgroup1, setCheckboxgroup1] = useState(['1']);
+  const [params, setParams] = useState({});
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(1);
+  const { data: problems, runAsync: getProblems, loading } = useGetProblem({ current, pageSize });
   const [form] = Form.useForm();
+
+  const handlePageChange = (page) => {
+    setCurrent(page);
+  };
+  //如果params改变，current恢复为1，重新请求数据，
+  useEffect(() => {
+    setCurrent(1);
+    getProblems({ ...params, current: 1, pageSize });
+  }, [params]);
+
+  useEffect(() => {
+    getProblems({ ...params, current, pageSize });
+  }, [current, pageSize]);
+
   return (
     <View className={styles.container}>
       <Form
         form={form}
         onFinish={(value) => {
-          console.log(value);
+          setParams(value);
+          getProblems({ ...value, current, pageSize });
         }}
       >
-        <Form.Item name="keyWord">
+        <Form.Item name="problemStatement">
           <SearchBar shape="round" />
         </Form.Item>
         <View className={styles.filterContainer}>
-          <Form.Item name="problemType">
-            <Checkbox.Group direction="horizontal">
+          <Form.Item name="type">
+            <Checkbox.Group
+              direction="horizontal"
+              onChange={(val) => {
+                console.log(val);
+              }}
+            >
               <View className={styles.row}>
                 {checkBoxList.slice(0, 3).map((item) => {
                   return (
@@ -84,79 +116,25 @@ const ProblemBankPage = () => {
         </View>
       </Form>
       <View className={styles.problemCardsContainer}>
-        <ProblemCard
-          question={{
-            type: 'singleChoice',
-            problemStatement:
-              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
-            options: [
-              { choice: '#include <iostream>', id: '1', sequence: 1 },
-              { choice: '#include "myheader.h"', id: '2', sequence: 2 },
-              { choice: '#include', id: '3', sequence: 3 },
-              { choice: '#include <myheader>', id: '4', sequence: 4 }
-            ],
-            solution: '为什么为什么',
-            answer: ['1'],
-            _id: '123'
-          }}
-        />
-        <ProblemCard
-          question={{
-            type: 'multipleChoice',
-            problemStatement:
-              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
-            options: [
-              { choice: '#include <iostream>', id: '1', sequence: 1 },
-              { choice: '#include "myheader.h"', id: '2', sequence: 2 },
-              { choice: '#include', id: '3', sequence: 3 },
-              { choice: '#include <myheader>', id: '4', sequence: 4 }
-            ],
-            solution: '为什么为什么',
-            answer: ['1', '2'],
-            _id: '123'
-          }}
-        />
-        <ProblemCard
-          question={{
-            type: 'TrueOrFalse',
-            problemStatement:
-              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
-            solution: '为什么为什么',
-            answer: true,
-            _id: '123'
-          }}
-        />
-        <ProblemCard
-          question={{
-            type: 'TrueOrFalse',
-            problemStatement:
-              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
-            solution: '为什么为什么',
-            answer: true,
-            _id: '123'
-          }}
-        />
-        <ProblemCard
-          question={{
-            type: 'fillInBlank',
-            problemStatement:
-              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
-            solution: '为什么为什么',
-            answer: ['hahah', 'hello'],
-            _id: '123'
-          }}
-        />
-        <ProblemCard
-          question={{
-            type: 'shortAnswer',
-            problemStatement:
-              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
-            solution: '为什么为什么',
-            answer: '我的答案我的答案我的答案我的答案',
-            _id: '123'
-          }}
-        />
+        <Space direction="vertical">
+          {!loading ? (
+            problems?.list.map((problem) => {
+              return <ProblemCard question={problem} key={problem._id} />;
+            })
+          ) : (
+            <Skeleton rows={10} animated />
+          )}
+        </Space>
       </View>
+      {problems && (
+        <Pagination
+          value={current}
+          total={problems?.total}
+          pageSize={pageSize}
+          onChange={handlePageChange}
+          className={styles.Pagination}
+        />
+      )}
     </View>
   );
 };
