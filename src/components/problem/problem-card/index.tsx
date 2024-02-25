@@ -3,13 +3,48 @@ import { Button, Divider, Space } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import QuestionViewer from '../question-viewer';
+import { ChoiceOption, Question } from '../question-viewer/define';
 import styles from './index.module.scss';
 
 interface ProblemCardProps {
   className?: string;
+  question: Question;
 }
 
-const ProblemCard: React.FC<ProblemCardProps> = ({ className }) => {
+const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
+  const questionTypeMap = {
+    singleChoice: '单选题',
+    multipleChoice: '多选题',
+    TrueOrFalse: '判断题',
+    fillInBlank: '填空题',
+    shortAnswer: '简答题'
+  };
+
+  const renderAnswer = (type, answer: any, options?: ChoiceOption[]) => {
+    switch (type) {
+      case 'TrueOrFalse':
+        return answer === true ? 'T' : 'F';
+      case 'singleChoice':
+        const singleChoiceAnswerStr =
+          options &&
+          options
+            .filter((item) => answer.includes(item.id))
+            .map((ans) => String.fromCharCode('A'.charCodeAt(0) + ans.sequence - 1));
+        return singleChoiceAnswerStr?.join(',');
+      case 'multipleChoice':
+        const multipleChoiceAnswerStr =
+          options &&
+          options
+            .filter((item) => answer.includes(item.id))
+            .map((ans) => String.fromCharCode('A'.charCodeAt(0) + ans.sequence - 1));
+        return multipleChoiceAnswerStr?.join(',');
+      case 'fillInBlank':
+        return answer.join(', ');
+      case 'shortAnswer':
+        return '见上';
+    }
+  };
+
   return (
     <View className={`${styles.container} ${className}`}>
       <View className={styles.topInfo}>
@@ -40,46 +75,23 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className }) => {
         </Space>
         <Space>
           <span className={styles.textLabel}>题型:</span>
-          <span className={`${styles.ellipse} ${styles.textValue}`}>{'单选题'}</span>
+          <span className={`${styles.ellipse} ${styles.textValue}`}>
+            {questionTypeMap[question.type]}
+          </span>
         </Space>
       </View>
-      {/*       <XStarMdViewer
-        // value={
-        //   '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```'
-        // }
-        value={'1515646'}
-      /> */}
-      <QuestionViewer
-        changeAnswer={false}
-        className={styles.questionViewer}
-        item={{
-          type: 'singleChoice',
-          problemStatement:
-            '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
-          options: [
-            { choice: '#include <iostream>', id: '1', sequence: 1 },
-            { choice: '#include "myheader.h"', id: '2', sequence: 2 },
-            { choice: '#include', id: '3', sequence: 3 },
-            { choice: '#include <myheader>', id: '4', sequence: 4 }
-          ],
-          solution: '为什么为什么',
-          answer: ['1'],
-          _id: '123'
-        }}
-      />
+      <QuestionViewer changeAnswer={false} className={styles.questionViewer} item={question} />
       <Divider className={styles.divider} />
       <View className={styles.bottomInfo}>
         <Space>
           <span className={styles.textLabel}>答案:</span>
-          <span className={styles.textValue}>{'A'}</span>
+          <span className={styles.textValue}>
+            {renderAnswer(question?.type, question?.answer as string[], question?.options || [])}
+          </span>
         </Space>
         <Space style={{ marginTop: '5px' }}>
           <span className={styles.textLabel}>解析:</span>
-          <span className={styles.textValue}>
-            {
-              '为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么为什么'
-            }
-          </span>
+          <span className={styles.textValue}>{question?.solution || '暂无解析'}</span>
         </Space>
         <Space style={{ marginTop: '5px' }}>
           <span className={styles.textLabel}>创建时间:</span>

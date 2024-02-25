@@ -1,0 +1,15 @@
+.blankContainer {
+  margin-top: 15px;
+  .blank {
+    display: flex;
+    margin-bottom: 10px;
+    .blankText {
+      line-height: 38px;
+    }
+    .input {
+      border: 1px solid #1990fe;
+      --nutui-input-padding: 7px 10px;
+      --nutui-input-border-radius: 6px;
+    }
+  }
+}

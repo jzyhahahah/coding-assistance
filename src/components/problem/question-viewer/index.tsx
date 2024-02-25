@@ -1,6 +1,9 @@
 import React from 'react';
 import ChoiceProblemViewer from './choice-problem';
 import { Question } from './define';
+import FillInBlankViewer from './fill-in-blank-problem';
+import TrueOrFalseProblemViewer from './true-or-false-problem';
+import ShortAnswerViewer from './short-answer-problem';
 
 interface QuestionViewerProps {
   item: Question;
@@ -17,21 +20,15 @@ const QuestionViewer: React.FC<QuestionViewerProps> = ({ item, ...props }) => {
       {(item.type === 'singleChoice' || item.type === 'multipleChoice') && (
         <ChoiceProblemViewer {...props} question={{ ...item, type: item.type }} />
       )}
-      {/* {item.type === 'judge' && (
-        <TrueOrFalseViewer {...props} question={{ ...item, type: item.type }} />
+      {item.type === 'TrueOrFalse' && (
+        <TrueOrFalseProblemViewer {...props} question={{ ...item, type: item.type }} />
       )}
-      {item.type === 'fill blank' && (
-        <FillInTheBlankViewer
-          {...props}
-          question={{ ...item, type: item.type }}
-        />
+      {item.type === 'fillInBlank' && (
+        <FillInBlankViewer {...props} question={{ ...item, type: item.type }} />
       )}
-      {item.type === 'short answer' && (
+      {item.type === 'shortAnswer' && (
         <ShortAnswerViewer {...props} question={{ ...item, type: item.type }} />
       )}
-      {item.type === 'combination' && (
-        <CombinationViewer {...props} question={{ ...item, type: item.type }} />
-      )} */}
     </>
   );
 };

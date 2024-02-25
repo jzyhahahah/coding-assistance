@@ -33,7 +33,6 @@
     "dev:quickapp": "npm run build:quickapp -- --watch",
     "test": "jest"
   },
-  "pre-commit": "lint-staged",
   "lint-staged": {
     "src/**/*.{js,jsx}": [
       "prettier --write",
@@ -112,7 +111,6 @@
     "jest-environment-jsdom": "^29.5.0",
     "lint-staged": "14.0.1",
     "postcss": "^8.4.18",
-    "pre-commit": "^1.2.2",
     "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.4",
     "react-refresh": "^0.11.0",

@@ -2,7 +2,10 @@ export interface BaseQuestion {
   _id: string;
   sequence?: number;
   problemStatement: string;
+  options?: ChoiceOption[];
   solution: string;
+  creator?: string;
+  createAt?: number;
 }
 
 export interface ChoiceOption {
@@ -14,9 +17,24 @@ export interface ChoiceOption {
 export interface choiceProblem extends BaseQuestion {
   type: 'singleChoice' | 'multipleChoice';
   answer: string[];
-  options?: ChoiceOption[];
 }
-export type Question = choiceProblem;
+
+export interface TrueOrFalse extends BaseQuestion {
+  type: 'TrueOrFalse';
+  answer: boolean;
+}
+
+export interface FillInTheBlank extends BaseQuestion {
+  type: 'fillInBlank';
+  answer: string[];
+}
+
+export interface ShortAnswer extends BaseQuestion {
+  type: 'shortAnswer';
+  answer: string;
+}
+
+export type Question = choiceProblem | TrueOrFalse | FillInTheBlank | ShortAnswer;
 // | TrueOrFalse
 // | FillInTheBlank
 // | ShortAnswer

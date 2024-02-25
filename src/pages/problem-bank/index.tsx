@@ -84,7 +84,78 @@ const ProblemBankPage = () => {
         </View>
       </Form>
       <View className={styles.problemCardsContainer}>
-        <ProblemCard />
+        <ProblemCard
+          question={{
+            type: 'singleChoice',
+            problemStatement:
+              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
+            options: [
+              { choice: '#include <iostream>', id: '1', sequence: 1 },
+              { choice: '#include "myheader.h"', id: '2', sequence: 2 },
+              { choice: '#include', id: '3', sequence: 3 },
+              { choice: '#include <myheader>', id: '4', sequence: 4 }
+            ],
+            solution: '为什么为什么',
+            answer: ['1'],
+            _id: '123'
+          }}
+        />
+        <ProblemCard
+          question={{
+            type: 'multipleChoice',
+            problemStatement:
+              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
+            options: [
+              { choice: '#include <iostream>', id: '1', sequence: 1 },
+              { choice: '#include "myheader.h"', id: '2', sequence: 2 },
+              { choice: '#include', id: '3', sequence: 3 },
+              { choice: '#include <myheader>', id: '4', sequence: 4 }
+            ],
+            solution: '为什么为什么',
+            answer: ['1', '2'],
+            _id: '123'
+          }}
+        />
+        <ProblemCard
+          question={{
+            type: 'TrueOrFalse',
+            problemStatement:
+              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
+            solution: '为什么为什么',
+            answer: true,
+            _id: '123'
+          }}
+        />
+        <ProblemCard
+          question={{
+            type: 'TrueOrFalse',
+            problemStatement:
+              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
+            solution: '为什么为什么',
+            answer: true,
+            _id: '123'
+          }}
+        />
+        <ProblemCard
+          question={{
+            type: 'fillInBlank',
+            problemStatement:
+              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
+            solution: '为什么为什么',
+            answer: ['hahah', 'hello'],
+            _id: '123'
+          }}
+        />
+        <ProblemCard
+          question={{
+            type: 'shortAnswer',
+            problemStatement:
+              '执行下列代码，最后运行结果是 1。 ```cpp #include <iostream> using namespace std; int main() { cout<<(3>2>1); return 0; } ```',
+            solution: '为什么为什么',
+            answer: '我的答案我的答案我的答案我的答案',
+            _id: '123'
+          }}
+        />
       </View>
     </View>
   );

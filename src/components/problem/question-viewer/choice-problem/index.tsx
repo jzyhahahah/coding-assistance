@@ -67,7 +67,11 @@ const ChoiceProblemViewer: React.FC<ChoiceProblemViewerProps> = ({
           </Space>
         </Radio.Group>
       ) : (
-        <Checkbox.Group className={styles.options} disabled={!changeAnswer}>
+        <Checkbox.Group
+          className={styles.options}
+          disabled={!changeAnswer}
+          value={value || question.answer}
+        >
           <Space className={styles.options} direction="vertical">
             {options}
           </Space>
