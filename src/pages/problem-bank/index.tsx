@@ -44,7 +44,12 @@ const ProblemBankPage = () => {
   const [params, setParams] = useState({});
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(1);
-  const { data: problems, runAsync: getProblems, loading } = useGetProblem({ current, pageSize });
+  const {
+    data: problems,
+    runAsync: getProblems,
+    loading,
+    params: lastParams
+  } = useGetProblem({ current, pageSize });
   const [form] = Form.useForm();
 
   const handlePageChange = (page) => {

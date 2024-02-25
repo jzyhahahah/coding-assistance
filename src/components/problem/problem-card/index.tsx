@@ -50,7 +50,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
       <View className={styles.topInfo}>
         <Space>
           <span className={styles.textLabel}>题目ID:</span>
-          <span className={`${styles.ellipse} ${styles.textValue}`}>{122452452343456}</span>
+          <span className={`${styles.ellipse} ${styles.textValue}`}>{question._id}</span>
           <Button
             type="primary"
             fill="none"

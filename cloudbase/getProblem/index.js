@@ -9,11 +9,11 @@ const $ = db.command.aggregate;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const { category, problemId, problemStatement, current, pageSize } = event;
+  const { type, problemId, problemStatement, current, pageSize } = event;
   const skip = (current - 1) * pageSize;
   const limit = pageSize;
   const match = {
-    type: category?.indexOf('all') !== -1 ? undefined : _.in(category),
+    type: type?.indexOf('all') !== -1 ? undefined : _.in(type),
     problemId: problemId ?? undefined,
     problemStatement: problemStatement
       ? db.RegExp({
