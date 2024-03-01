@@ -22,7 +22,7 @@ exports.main = async (event, context) => {
   return {
     user: {
       ...existUser.data[0],
-      state: 'registered'
+      state: 'registered',
     }
   };
 };

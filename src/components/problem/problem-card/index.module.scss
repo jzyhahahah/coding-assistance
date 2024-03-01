@@ -6,7 +6,7 @@
   .topInfo {
     display: flex;
     justify-content: space-around;
-    padding: 4px 0;
+    padding: 10px 0;
     width: 100%;
     border-bottom: 1px solid #f0f0f0;
 
@@ -39,10 +39,9 @@
 
   .bottomInfo {
     padding: 5px 20px;
+    margin-bottom: 10px;
     width: 100%;
 
-    // display: flex;
-    // justify-content: space-between;
     .textLabel {
       font-size: 14px;
       color: rgb(153 153 153);

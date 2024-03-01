@@ -24,7 +24,7 @@ const Course = () => {
       </View>
       <View className={styles.courseList}>
         {loading ? (
-          <Skeleton rows={20} title animated className={styles.skeleton} />
+          <Skeleton rows={30} title animated className={styles.skeleton} />
         ) : (
           <Space direction="vertical" style={{ gap: 8 }}>
             {allCourses?.map((item) => {

@@ -1,6 +1,6 @@
 import { useAuth } from '@/components/hoc/with-auth';
 import { useLang } from '@/components/hoc/with-lang/define';
-import { Addfollow } from '@nutui/icons-react-taro';
+import { Follow } from '@nutui/icons-react-taro';
 import { Button, Cell, Picker } from '@nutui/nutui-react-taro';
 import { useState } from 'react';
 import styles from './index.module.scss';
@@ -21,7 +21,7 @@ const Settings = () => {
       <Cell
         title={
           <div className="cell">
-            <Addfollow size="16" />
+            <Follow size="16" />
             {'语言偏好'}
           </div>
         }

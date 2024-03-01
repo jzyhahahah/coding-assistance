@@ -94,12 +94,12 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
           <span className={styles.textValue}>{question?.solution || '暂无解析'}</span>
         </Space>
         <Space style={{ marginTop: '5px' }}>
-          <span className={styles.textLabel}>创建时间:</span>
-          <span className={styles.textValue}>{'2021-10-10'}</span>
-        </Space>
-        <Space style={{ marginTop: '5px' }}>
           <span className={styles.textLabel}>创建人:</span>
           <span className={styles.textValue}>{'张三'}</span>
+        </Space>
+        <Space style={{ marginTop: '5px' }}>
+          <span className={styles.textLabel}>创建时间:</span>
+          <span className={styles.textValue}>{'2021-10-10'}</span>
         </Space>
       </View>
     </View>
