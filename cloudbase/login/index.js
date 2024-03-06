@@ -23,8 +23,6 @@ exports.main = async (event, context) => {
     '&grant_type=authorization_code';
   const { session_key, openid } = JSON.parse(await rp(url));
   const userData = JSON.parse(rawUserData);
-  console.log(userData);
-  console.log(openid);
   const existUser = await db
     .collection('userInfo')
     .where({

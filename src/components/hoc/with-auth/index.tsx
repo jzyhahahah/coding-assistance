@@ -2,7 +2,7 @@ import { useGetUserInfo } from '@/api/user';
 import { LoginRequest, LoginRespones } from '@/api/user/define';
 import { Col, Row, Space } from '@nutui/nutui-react-taro';
 import Taro from '@tarojs/taro';
-import { useRequest } from 'ahooks';
+import { useLocalStorageState, useRequest } from 'ahooks';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthInfo, UserInfo } from './define';
 
@@ -15,7 +15,8 @@ const AuthContext = React.createContext<AuthInfo>({
   setUser: showWarning,
   login: showWarning as any,
   refresh: showWarning,
-  logout: showWarning
+  logout: showWarning,
+  isLogined:false
 });
 
 const loginCloudFunction = async (req: LoginRequest): Promise<LoginRespones> => {
@@ -45,6 +46,7 @@ const RainbowCat: React.FC<{ text: string }> = ({ text }) => (
 
 export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserInfo | null>();
+  const [isLogined,setIsLogined] = useState(false);
   const { runAsync: getUserInfoAysnc } = useGetUserInfo();
   const logoutSuccessMsg = '退出登录成功';
   const logoutErrorMsg = '退出登录失败';
@@ -53,6 +55,7 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
       key: '_openid',
       success: async function (res) {
         //console.log(res.data)
+        setIsLogined(true);
         const info = await getUserInfoAysnc({ _openid: res.data });
         setUser(info);
       },
@@ -68,6 +71,7 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
         key: '_openid',
         data: resp.user._openid
       });
+      setIsLogined(true);
       return resp;
     },
     {
@@ -93,11 +97,12 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
       Taro.removeStorage({
         key: '_openid',
         success: function (res) {
-          Taro.switchTab({ url: '/pages/home/index' });
+          Taro.switchTab({ url: '/pages/account/index' });
           Taro.showToast({
             title: logoutSuccessMsg,
             duration: 1500
           });
+          setIsLogined(false);
         },
         fail: function (res) {
           Taro.showToast({
@@ -115,7 +120,8 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
         setUser,
         login,
         refresh,
-        logout
+        logout,
+        isLogined
       }}
     >
       {children}

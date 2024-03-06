@@ -8,11 +8,16 @@
   }
 
   .filterContainer {
-    padding: 10px;
+    padding: 8px;
 
     .row {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .secondRow {
+      display: flex;
+      justify-content: flex-start;
       margin-bottom: 10px;
     }
 
@@ -35,7 +40,7 @@
     padding: 0 10px;
   }
 
-  .Pagination{
+  .Pagination {
     margin: 20px;
   }
 }

@@ -6,6 +6,12 @@
   background-repeat: no-repeat;
   background-color: rgb(255 223 15);
   background-image: url('../../assets/xueli.png');
+  .noLogin {
+    padding-top: 30px;
+    padding-bottom: 80px;
+    font-size: 24px;
+    font-weight: 600;
+  }
 
   .topUserName {
     margin-top: 20px;
@@ -103,6 +109,9 @@
 
     :global(.nut-tabpane) {
       padding: 24px 0;
+    }
+    .Empty {
+      --nutui-empty-padding: 0 0 40px 0;
     }
   }
 }

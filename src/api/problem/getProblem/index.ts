@@ -13,10 +13,14 @@ export const getProblemCloudFunction = async (
 };
 
 export const useGetProblem = ({ current, pageSize }) => {
-  return useRequest(
-    async (params: GetProblemRequest) => {
-      const reps = await getProblemCloudFunction({ ...params, current, pageSize });
-      return reps;
-    },
-  );
+  return useRequest(async (params: GetProblemRequest) => {
+    const reps = await getProblemCloudFunction({
+      ...params,
+      current,
+      pageSize,
+      category:
+        Array.isArray(params.category) && params.category.length > 0 ? params.category : undefined
+    });
+    return reps;
+  });
 };

@@ -15,10 +15,6 @@ import styles from './index.module.scss';
 
 const checkBoxList = [
   {
-    label: '全部',
-    value: 'all'
-  },
-  {
     label: '单选题',
     value: 'singleChoice'
   },
@@ -41,7 +37,6 @@ const checkBoxList = [
 ];
 
 const ProblemBankPage = () => {
-  const [params, setParams] = useState({});
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(1);
   const {
@@ -55,14 +50,9 @@ const ProblemBankPage = () => {
   const handlePageChange = (page) => {
     setCurrent(page);
   };
-  //如果params改变，current恢复为1，重新请求数据，
-  useEffect(() => {
-    setCurrent(1);
-    getProblems({ ...params, current: 1, pageSize });
-  }, [params]);
 
   useEffect(() => {
-    getProblems({ ...params, current, pageSize });
+    getProblems({ ...lastParams[0], current, pageSize });
   }, [current, pageSize]);
 
   return (
@@ -70,7 +60,6 @@ const ProblemBankPage = () => {
       <Form
         form={form}
         onFinish={(value) => {
-          setParams(value);
           getProblems({ ...value, current, pageSize });
         }}
       >
@@ -78,14 +67,14 @@ const ProblemBankPage = () => {
           <SearchBar shape="round" />
         </Form.Item>
         <View className={styles.filterContainer}>
-          <Form.Item name="type">
+          <Form.Item name="category">
             <Checkbox.Group
               direction="horizontal"
               onChange={(val) => {
                 console.log(val);
               }}
             >
-              <View className={styles.row}>
+              {/* <View className={styles.row}>
                 {checkBoxList.slice(0, 3).map((item) => {
                   return (
                     <Checkbox
@@ -99,8 +88,8 @@ const ProblemBankPage = () => {
                   );
                 })}
               </View>
-              <View className={styles.row}>
-                {checkBoxList.slice(3, 6).map((item) => {
+              <View className={styles.secondRow}>
+                {checkBoxList.slice(3, 5).map((item) => {
                   return (
                     <Checkbox
                       value={item.value}
@@ -112,7 +101,21 @@ const ProblemBankPage = () => {
                     </Checkbox>
                   );
                 })}
-              </View>
+              </View> */}
+              <Space wrap style={{ marginBottom: 10 }}>
+                {checkBoxList.map((item) => {
+                  return (
+                    <Checkbox
+                      value={item.value}
+                      shape="button"
+                      key={item.value}
+                      className={styles.filterCheckBox}
+                    >
+                      {item.label}
+                    </Checkbox>
+                  );
+                })}
+              </Space>
             </Checkbox.Group>
           </Form.Item>
           <Button type="primary" formType="submit" block>
