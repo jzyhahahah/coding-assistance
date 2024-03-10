@@ -74,34 +74,6 @@ const ProblemBankPage = () => {
                 console.log(val);
               }}
             >
-              {/* <View className={styles.row}>
-                {checkBoxList.slice(0, 3).map((item) => {
-                  return (
-                    <Checkbox
-                      value={item.value}
-                      shape="button"
-                      key={item.value}
-                      className={styles.filterCheckBox}
-                    >
-                      {item.label}
-                    </Checkbox>
-                  );
-                })}
-              </View>
-              <View className={styles.secondRow}>
-                {checkBoxList.slice(3, 5).map((item) => {
-                  return (
-                    <Checkbox
-                      value={item.value}
-                      shape="button"
-                      key={item.value}
-                      className={styles.filterCheckBox}
-                    >
-                      {item.label}
-                    </Checkbox>
-                  );
-                })}
-              </View> */}
               <Space wrap style={{ marginBottom: 10 }}>
                 {checkBoxList.map((item) => {
                   return (

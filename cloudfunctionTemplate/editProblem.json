@@ -1,0 +1,36 @@
+[
+  {
+    "name": "problem",
+    "value": {
+      "_id": "538e32fb65d98fa000a64495224069d5",
+      "type": "singleChoice",
+      "problemStatement": "与十六进制数 A1.2 等值的十进制数是（ ）",
+      "solution": "A1.2 = 10*16^1 + 1*16^0 + 2*16^-1 = 161.125",
+      "option": [
+        {
+          "id": "A",
+          "sequence": 1,
+          "choice": "161"
+        },
+        {
+          "id": "B",
+          "sequence": 2,
+          "choice": "161.2"
+        },
+        {
+          "id": "C",
+          "sequence": 3,
+          "choice": "161.125"
+        },
+        {
+          "id": "D",
+          "sequence": 4,
+          "choice": "161.25"
+        }
+      ],
+      "answer": [
+        "A"
+      ]
+    }
+  }
+]
