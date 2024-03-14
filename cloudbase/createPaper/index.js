@@ -14,10 +14,11 @@ exports.main = async (event, context) => {
   return await db.collection('paper').add({
     data: {
       name,
-      problems: problems?.map((problem) => {
+      problems: problems?.map((problem, index) => {
         return {
           pid: problem,
-          mark: 0
+          mark: 0,
+          seq: index
         };
       }),
       totalScore,
