@@ -34,7 +34,8 @@ exports.main = async (event, context) => {
             }),
             0
           ]),
-          mark: '$$p.mark'
+          mark: '$$p.mark',
+          seq: '$$p.seq'
         }
       })
     })
