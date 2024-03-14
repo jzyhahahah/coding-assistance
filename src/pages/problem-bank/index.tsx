@@ -38,7 +38,7 @@ const checkBoxList = [
 
 const ProblemBankPage = () => {
   const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   const {
     data: problems,
     runAsync: getProblems,

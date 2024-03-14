@@ -1,8 +1,11 @@
 import { Radio } from '@nutui/nutui-react-taro';
-import { View } from '@tarojs/components';
-import { useMemo, useState } from 'react';
+import { View, RichText } from '@tarojs/components';
+import React, { useMemo, useState } from 'react';
 import { Question } from '../define';
 import styles from './index.module.scss';
+import {
+  TaroRichText
+} from 'taro_rich_text';
 
 interface QuestionViewerProps {
   question: Question;

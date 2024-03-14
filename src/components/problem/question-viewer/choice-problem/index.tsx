@@ -1,5 +1,5 @@
 import { Checkbox, Radio, Space } from '@nutui/nutui-react-taro';
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import React, { useMemo, useState } from 'react';
 import { choiceProblem } from '../define';
 import styles from './index.module.scss';
@@ -23,12 +23,10 @@ const ChoiceProblemViewer: React.FC<ChoiceProblemViewerProps> = ({
         const label = item?.choice || '';
         return {
           label: item ? (
-            <span key={item.id}>
-              <Space>
-                <span style={{ fontSize: '16px' }}>{val}.</span>
-                <span style={{ fontSize: '16px' }}>{label}</span>
-              </Space>
-            </span>
+            <>
+              <Text style={{ fontSize: '16px' }}>{val}{". "}</Text>
+              <Text style={{ fontSize: '16px' }}>{label}</Text>
+            </>
           ) : undefined,
           value: item?.id?.toString()
         };
@@ -55,7 +53,7 @@ const ChoiceProblemViewer: React.FC<ChoiceProblemViewerProps> = ({
   }, [question]);
   return (
     <View className={`${className} ${styles.container}`}>
-      <View>{question.problemStatement}</View>
+      <View className={styles.title}>{question.problemStatement}</View>
       {question.type === 'singleChoice' ? (
         <Radio.Group
           className={styles.options}

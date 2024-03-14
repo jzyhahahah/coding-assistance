@@ -67,6 +67,7 @@ const config = {
     publicPath: '/',
     staticDirectory: 'static',
     // esnextModules: ['nutui-react'],
+    esnextModules: ['taro_rich_text'],
     postcss: {
       pxtransform: {
         enable: true,
