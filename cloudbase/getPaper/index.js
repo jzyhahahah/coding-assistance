@@ -8,7 +8,21 @@ const _ = db.command;
 const $ = db.command.aggregate;
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const { paperId } = event;
+  // mode: 'noAnswer' | 'withAnswer'
+  const { paperId, mode = 'withAnswer' } = event;
+  const getProjection = (mode) => {
+    if (mode === 'noAnswer') {
+      return {
+        problems: 0,
+        'problemList.problem.answer': 0,
+        'problemList.problem.solution': 0
+      };
+    } else {
+      return {
+        problems: 0,
+      };
+    }
+  };
   return await db
     .collection('paper')
     .aggregate()
@@ -39,8 +53,6 @@ exports.main = async (event, context) => {
         }
       })
     })
-    .project({
-      problems: 0
-    })
+    .project(getProjection(mode))
     .end();
 };
