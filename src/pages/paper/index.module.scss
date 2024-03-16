@@ -4,7 +4,7 @@
   flex-direction: column;
   height: 100vh;
   .head {
-    flex: 1;
+    flex: 0.5;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -71,6 +71,11 @@
     }
   }
   :global(.nut-swiper){
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  :global(.nut-swiper-inner){
     height: 100% !important;
     width: 100% !important;
   }

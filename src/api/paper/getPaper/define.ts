@@ -17,6 +17,7 @@ export type QuestionItem = {
   option?: ChoiceOption[];
   problemStatement: string;
   solution: string;
+  answerNum?: number;
   type: 'singleChoice' | 'TrueOrFalse' | 'multipleChoice' | 'fillInBlank' | 'shortAnswer';
 };
 

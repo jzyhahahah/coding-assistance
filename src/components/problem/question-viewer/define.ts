@@ -3,9 +3,11 @@ export interface BaseQuestion {
   sequence?: number;
   problemStatement: string;
   option?: ChoiceOption[];
-  solution: string;
+  solution?: string;
   creator?: string;
   createAt?: number;
+  mark?: number;
+  seq?: number;
 }
 
 export interface ChoiceOption {
@@ -16,17 +18,18 @@ export interface ChoiceOption {
 
 export interface choiceProblem extends BaseQuestion {
   type: 'singleChoice' | 'multipleChoice';
-  answer: string[];
+  answer?: string[];
 }
 
 export interface TrueOrFalse extends BaseQuestion {
   type: 'TrueOrFalse';
-  answer: boolean;
+  answer?: boolean;
 }
 
 export interface FillInTheBlank extends BaseQuestion {
   type: 'fillInBlank';
-  answer: string[];
+  answer?: string[];
+  answerNum?: number;
 }
 
 export interface ShortAnswer extends BaseQuestion {

@@ -1,22 +1,22 @@
+import { AnswerSheetItemType } from '@/pages/paper';
 import { Radio } from '@nutui/nutui-react-taro';
-import { View, RichText } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import React, { useMemo, useState } from 'react';
 import { Question } from '../define';
 import styles from './index.module.scss';
-import {
-  TaroRichText
-} from 'taro_rich_text';
 
 interface QuestionViewerProps {
   question: Question;
   changeAnswer: boolean;
   className?: string;
+  answerSheetRef?: React.MutableRefObject<AnswerSheetItemType[]>;
 }
 
 const TrueOrFalseProblemViewer: React.FC<QuestionViewerProps> = ({
   question,
   changeAnswer,
-  className
+  className,
+  answerSheetRef
 }) => {
   const [value, setValue] = useState<boolean>();
   const options = useMemo(
@@ -36,9 +36,31 @@ const TrueOrFalseProblemViewer: React.FC<QuestionViewerProps> = ({
     <View className={`${styles.question} ${className}`} id={`${question._id}`}>
       <View className={styles.title}>{question.problemStatement}</View>
       <Radio.Group
-        value={value || question.answer ? 'T' : 'F'}
+        defaultValue={
+          value || question.answer
+            ? 'T'
+            : value === false || question.answer === false
+              ? 'F'
+              : undefined
+        }
         className={styles.Radio}
         disabled={!changeAnswer}
+        onChange={(val) => {
+          if (answerSheetRef) {
+            const sameIndex = answerSheetRef.current.findIndex(
+              (item) => item.problemId === question._id
+            );
+            if (sameIndex !== -1) {
+              answerSheetRef.current[sameIndex].answer = val === 'T' ? true : false;
+              return;
+            }
+            answerSheetRef.current.push({
+              problemId: question._id,
+              answer: val === 'T' ? true : false,
+              problemType: 'TrueOrFalse'
+            });
+          }
+        }}
       >
         {options}
       </Radio.Group>

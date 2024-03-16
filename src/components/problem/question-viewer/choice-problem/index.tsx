@@ -1,5 +1,6 @@
+import { AnswerSheetItemType } from '@/pages/paper';
 import { Checkbox, Radio, Space } from '@nutui/nutui-react-taro';
-import { View, Text } from '@tarojs/components';
+import { Text, View } from '@tarojs/components';
 import React, { useMemo, useState } from 'react';
 import { choiceProblem } from '../define';
 import styles from './index.module.scss';
@@ -8,12 +9,14 @@ interface ChoiceProblemViewerProps {
   question: choiceProblem;
   className?: string;
   changeAnswer: boolean;
+  answerSheetRef?: React.MutableRefObject<AnswerSheetItemType[]> | null;
 }
 
 const ChoiceProblemViewer: React.FC<ChoiceProblemViewerProps> = ({
   question,
   className,
-  changeAnswer
+  changeAnswer,
+  answerSheetRef
 }) => {
   const [value, setValue] = useState();
   const options = useMemo(() => {
@@ -24,7 +27,10 @@ const ChoiceProblemViewer: React.FC<ChoiceProblemViewerProps> = ({
         return {
           label: item ? (
             <>
-              <Text style={{ fontSize: '16px' }}>{val}{". "}</Text>
+              <Text style={{ fontSize: '16px' }}>
+                {val}
+                {'. '}
+              </Text>
               <Text style={{ fontSize: '16px' }}>{label}</Text>
             </>
           ) : undefined,
@@ -58,7 +64,23 @@ const ChoiceProblemViewer: React.FC<ChoiceProblemViewerProps> = ({
         <Radio.Group
           className={styles.options}
           disabled={!changeAnswer}
-          value={value || question.answer[0]}
+          defaultValue={value || question.answer?.[0]}
+          onChange={(val) => {
+            if (answerSheetRef) {
+              const sameIndex = answerSheetRef?.current.findIndex(
+                (item) => item.problemId === question._id
+              );
+              if (sameIndex !== -1) {
+                answerSheetRef.current[sameIndex].answer = [val];
+                return;
+              }
+              answerSheetRef.current.push({
+                problemId: question._id,
+                answer: [val],
+                problemType: 'singleChoice'
+              });
+            }
+          }}
         >
           <Space className={styles.options} direction="vertical">
             {options}
@@ -68,7 +90,23 @@ const ChoiceProblemViewer: React.FC<ChoiceProblemViewerProps> = ({
         <Checkbox.Group
           className={styles.options}
           disabled={!changeAnswer}
-          value={value || question.answer}
+          defaultValue={value || question.answer}
+          onChange={(val) => {
+            if (answerSheetRef) {
+              const sameIndex = answerSheetRef?.current.findIndex(
+                (item) => item.problemId === question._id
+              );
+              if (sameIndex !== -1) {
+                answerSheetRef.current[sameIndex].answer = [val];
+                return;
+              }
+              answerSheetRef.current.push({
+                problemId: question._id,
+                answer: val,
+                problemType: 'multipleChoice'
+              });
+            }
+          }}
         >
           <Space className={styles.options} direction="vertical">
             {options}

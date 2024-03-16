@@ -1,9 +1,10 @@
+import { AnswerSheetItemType } from '@/pages/paper';
 import React from 'react';
 import ChoiceProblemViewer from './choice-problem';
 import { Question } from './define';
 import FillInBlankViewer from './fill-in-blank-problem';
-import TrueOrFalseProblemViewer from './true-or-false-problem';
 import ShortAnswerViewer from './short-answer-problem';
+import TrueOrFalseProblemViewer from './true-or-false-problem';
 
 interface QuestionViewerProps {
   item: Question;
@@ -13,6 +14,7 @@ interface QuestionViewerProps {
   // showUserAnswer: boolean; //显示用户答案还是正确答案
   changeAnswer: boolean;
   className?: string;
+  answerSheetRef?: React.MutableRefObject<AnswerSheetItemType[]>;
 }
 const QuestionViewer: React.FC<QuestionViewerProps> = ({ item, ...props }) => {
   return (

@@ -5,8 +5,17 @@
   .options {
     margin-top: 15px;
   }
+
+  :global(.nut-checkbox-icon) {
+    flex: 1 !important;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+  :global(.nut-checkbox-label) {
+    flex: 25 !important;
+  }
 }
 
-.title{
+.title {
   white-space: pre-wrap;
 }
