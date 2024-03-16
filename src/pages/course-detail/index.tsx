@@ -31,12 +31,28 @@ const CourseDetail = () => {
   };
 
   useEffect(() => {
-    setSource({
-      src: fragments?.list?.[selectedIndex - 1]?.videoUrl || '',
-      type: 'video/mp4'
-    });
     setVisible(fragments?.errMsg === 'NoChoosed');
-  }, [fragments, selectedIndex]);
+    if (fragments?.list?.length || 0 > 0) {
+      setSelectedIndex(1);
+      setSource({
+        src: fragments?.list?.[0]?.videoUrl || '',
+        type: 'video/mp4'
+      });
+    }
+  }, [fragments]);
+
+  useEffect(() => {
+    if (fragments?.list[selectedIndex - 1].type === 'video') {
+      setSource({
+        src: fragments?.list?.[selectedIndex - 1]?.videoUrl || '',
+        type: 'video/mp4'
+      });
+    } /* else if (fragments?.list[selectedIndex - 1].type === 'paper') {
+      Taro.navigateTo({
+        url: `/pages/paper/index?fragmentId=${fragments?.list?.[selectedIndex - 1]?.fragmentId}&courseId=${route?.params?.courseId}`
+      });
+    } */
+  }, [selectedIndex])
 
   const handleUpdateCourseProgress = async () => {
     const fragmentId = fragments?.list?.[selectedIndex - 1]?.fragmentId || '';
@@ -71,7 +87,15 @@ const CourseDetail = () => {
                     ? { backgroundColor: 'rgba(253,240,15,0.1)', transition: 'all 0.2s ease-in' }
                     : {}
                 }
-                onClick={() => setSelectedIndex(index + 1)}
+                onClick={() => {
+                  setSelectedIndex(index + 1)
+                  if (item.type === 'paper') {
+                    Taro.navigateTo({
+                      url: `/pages/paper/index?fragmentId=${fragments?.list?.[index]?.fragmentId}&courseId=${route?.params?.courseId}&paperId=${fragments?.list?.[index]?.paperId}&fragmentTitle=${fragments?.list?.[index]?.fragmentTitle}
+                      `
+                    });
+                  }
+                }}
                 icon={
                   index + 1 === selectedIndex ? (
                     <Loading1 />
@@ -97,7 +121,7 @@ const CourseDetail = () => {
                 }
                 // 刷新课程页面
                 refresh();
-                return () => {}; // 返回一个空函数
+                return () => { }; // 返回一个空函数
               }}
               onCancel={() => {
                 setVisible(false);
