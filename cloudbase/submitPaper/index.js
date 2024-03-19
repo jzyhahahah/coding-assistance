@@ -118,6 +118,7 @@ exports.main = async (event, context) => {
   console.log('score', score);
   const userAnswerSheet = problems.map((problemItem, index) => {
     return {
+      problemId: problemItem.problem._id,
       userAnswer: userAnswerMap[problemItem.problem._id],
       userScore: userAnswerGetScoreMap[problemItem.problem._id],
       // problem: problemItem.problem,
