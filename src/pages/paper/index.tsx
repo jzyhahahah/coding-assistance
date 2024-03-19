@@ -35,6 +35,7 @@ const PaperPage = () => {
     setVal1(item.name);
     setIsVisible1(false);
   };
+
   return (
     <>
       {paper ? (
@@ -114,14 +115,23 @@ const PaperPage = () => {
                         problemId: item.problemId,
                         answer: item.answer
                       };
-                    } else {
+                    } else if (
+                      item.problemType === 'shortAnswer' ||
+                      item.problemType === 'singleChoice' ||
+                      item.problemType === 'TrueOrFalse'
+                    ) {
                       return {
                         problemId: item.problemId,
                         answer: item.answer
                       };
+                    } else {
+                      return {
+                        problemId: item.problemId,
+                        answer: item.answer[0]
+                      };
                     }
                   });
-                  console.log('userAnswer', userAnswer);
+                  console.log(userAnswer);
                 }
                 if (currentProblemIndex < paper[0].problemList.length) {
                   setCurrentProblemIndex(currentProblemIndex + 1);

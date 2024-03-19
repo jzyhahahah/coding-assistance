@@ -71,7 +71,6 @@ const ProblemBankPage = () => {
             <Checkbox.Group
               direction="horizontal"
               onChange={(val) => {
-                console.log(val);
               }}
             >
               <Space wrap style={{ marginBottom: 10 }}>

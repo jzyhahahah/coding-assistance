@@ -9,6 +9,7 @@ import { useAuth } from '@/components/hoc/with-auth';
 import { Button, Empty, Grid, Progress, Space, Swiper, Tabs } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
+import { useEffect } from 'react';
 import styles from './index.module.scss';
 
 const Home = () => {
@@ -17,14 +18,13 @@ const Home = () => {
   const { data: allCourses, runAsync: getAll } = useGetAllCourse();
   const { data: myCourse, runAsync: getMy } = useGetAllMyCourse();
   const { user, isLogined } = useAuth();
-  console.log('isLogined', isLogined);
 
-  useDidShow(() => {
+  useEffect(() => {
     if (isLogined) {
       getAll({ courseName: undefined });
       getMy();
     }
-  });
+  }, [isLogined]);
 
   return (
     <>

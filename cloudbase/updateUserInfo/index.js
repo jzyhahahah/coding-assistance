@@ -14,7 +14,6 @@ exports.main = async (event, context) => {
     const res = await cloud.deleteFile({
       fileList: [oldAvaUrl]
     });
-    console.log(res);
     const uploadResult = await cloud.uploadFile({
       cloudPath: `avatar/${_openid}/${new Date().getTime()}.png`,
       fileContent: Buffer.from(avatarUrl, 'base64')

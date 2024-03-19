@@ -21,10 +21,8 @@ exports.main = async (event, context) => {
     })
     .get();
   const problemList = paper.data[0].problems;
-  console.log('problemList', problemList);
   const newProblemList = problemList?.map((item) => {
     if (problemIds.includes(item.pid)) {
-      console.log('111');
       item.seq = problemIds.indexOf(item.pid);
     }
     return item;
