@@ -10,41 +10,10 @@ const $ = db.command.aggregate;
 // 云函数入口函数
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV }); // 使用当前云环境
 
-/**
- * 
- *   "userAnswer": [
-    {
-      "problemId": "63ca5b1365ed8569019ef0bc2c6456bf",
-      "answer": [
-        "A",
-        "B",
-        "C"
-      ]
-    },
-    {
-      "problemId": "538e32fb65d99baa00a6689d17ea1d8a",
-      "answer": "gfdsgdfgdfg"
-    },
-    {
-      "problemId": "4972958165d991c500001e8d27ffbc92",
-      "answer": true
-    },
-    {
-      "problemId": "538e32fb65d98fa000a64495224069d5",
-      "answer":  ["B"]
-    },
-    {
-      "problemId": "1ef1307f65d9987600621f2e4bcc1f4d",
-      "answer": ["123", "456", "789"]
-    }
-  ]
- * 
- */
-
 // 云函数入口函数
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
-  const { paperId, userAnswer, spendTime } = event;
+  const { paperId, userAnswer, spendTime, fragmentId, courseId } = event;
   const standardAnswers = await cloud.callFunction({
     name: 'getPaper',
     data: {
@@ -71,7 +40,6 @@ exports.main = async (event, context) => {
   };
 
   const problems = paper?.problemList;
-  console.log('problems', problems);
   const userAnswerMap = {};
   const userAnswerGetScoreMap = {};
   userAnswer.forEach((answer) => {
@@ -115,16 +83,30 @@ exports.main = async (event, context) => {
     userAnswerGetScoreMap[problemItem.problem._id] = 0;
     return acc;
   }, 0);
-  console.log('score', score);
   const userAnswerSheet = problems.map((problemItem, index) => {
     return {
       problemId: problemItem.problem._id,
       userAnswer: userAnswerMap[problemItem.problem._id],
-      userScore: userAnswerGetScoreMap[problemItem.problem._id],
-      // problem: problemItem.problem,
-      // seq: problemItem.seq,
-      // mark: problemItem.mark
+      userScore: userAnswerGetScoreMap[problemItem.problem._id]
     };
   });
-  console.log('userAnswerSheet', userAnswerSheet);
+  const resulit = await db.collection('userAnswerSheet').add({
+    data: {
+      paperId,
+      userId: OPENID,
+      userGetScore: score,
+      spendTime,
+      userAnswerSheet,
+      fragmentId,
+      courseId
+    }
+  });
+  return {
+    errMsg: 'success',
+    result: {
+      userGetScore: score,
+      spendTime,
+      id: resulit._id
+    }
+  };
 };

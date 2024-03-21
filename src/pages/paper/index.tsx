@@ -1,4 +1,5 @@
 import { useGetPaper } from '@/api/paper/getPaper';
+import { useSubmitPaper } from '@/api/paper/submitPaper';
 import Timer, { TimerHandle } from '@/components/common/Timer';
 import QuestionViewer from '@/components/problem/question-viewer';
 import { Question } from '@/components/problem/question-viewer/define';
@@ -6,7 +7,7 @@ import { More } from '@nutui/icons-react-taro';
 import { ActionSheet, Button, Progress, Skeleton, Swiper } from '@nutui/nutui-react-taro';
 import { ItemType } from '@nutui/nutui-react-taro/dist/types/packages/actionsheet/actionsheet.taro';
 import { View } from '@tarojs/components';
-import { useRouter } from '@tarojs/taro';
+import Taro, { useRouter } from '@tarojs/taro';
 import { useRef, useState } from 'react';
 import styles from './index.module.scss';
 
@@ -26,6 +27,7 @@ const PaperPage = () => {
   const [val1, setVal1] = useState('');
   const [isVisible1, setIsVisible1] = useState(false);
   const { data: paper } = useGetPaper({ paperId: paperId!, mode: 'noAnswer' });
+  const { runAsync: submitPaper } = useSubmitPaper();
   const optionsOne: ItemType<string>[] = [
     {
       name: '收藏题目'
@@ -100,7 +102,7 @@ const PaperPage = () => {
             <Button
               shape="square"
               className={`${styles.common} ${styles.next}`}
-              onClick={() => {
+              onClick={async () => {
                 swiperRef.current.next();
                 if (currentProblemIndex === paper[0].problemList.length) {
                   const userAnswer = answerSheetRef.current.map((item) => {
@@ -131,7 +133,18 @@ const PaperPage = () => {
                       };
                     }
                   });
-                  console.log(userAnswer);
+                  const time = timerRef.current?.getTime();
+                  await submitPaper({
+                    paperId: paperId!,
+                    userAnswer,
+                    spendTime: time?.hours! * 60 * 60 + time?.minutes! * 60 + time?.seconds!,
+                    courseId: courseId!,
+                    fragmentId: fragmentId!
+                  });
+                  Taro.showToast({
+                    title: '交卷成功',
+                    icon: 'success'
+                  });
                 }
                 if (currentProblemIndex < paper[0].problemList.length) {
                   setCurrentProblemIndex(currentProblemIndex + 1);
