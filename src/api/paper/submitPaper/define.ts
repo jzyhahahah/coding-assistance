@@ -11,9 +11,5 @@ export interface submitPaperRequest {
 
 export interface submitPaperResponse {
   errMsg: string;
-  result: {
-    userGetScore: number;
-    spendTime: number;
-    id: string;
-  };
+  _id: string;
 }

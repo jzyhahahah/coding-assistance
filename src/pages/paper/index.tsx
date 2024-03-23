@@ -4,7 +4,16 @@ import Timer, { TimerHandle } from '@/components/common/Timer';
 import QuestionViewer from '@/components/problem/question-viewer';
 import { Question } from '@/components/problem/question-viewer/define';
 import { More } from '@nutui/icons-react-taro';
-import { ActionSheet, Button, Progress, Skeleton, Swiper } from '@nutui/nutui-react-taro';
+import {
+  ActionSheet,
+  Button,
+  Dialog,
+  Loading,
+  Overlay,
+  Progress,
+  Skeleton,
+  Swiper
+} from '@nutui/nutui-react-taro';
 import { ItemType } from '@nutui/nutui-react-taro/dist/types/packages/actionsheet/actionsheet.taro';
 import { View } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
@@ -21,13 +30,14 @@ const PaperPage = () => {
   const router = useRouter();
   const timerRef = useRef<TimerHandle>(null);
   const swiperRef = useRef<any>(null);
+  const [answerModalVisible, setAnswerModalVisible] = useState(false);
   const answerSheetRef = useRef<AnswerSheetItemType[]>([]);
   const { fragmentId, courseId, paperId, fragmentTitle } = router.params;
   const [currentProblemIndex, setCurrentProblemIndex] = useState(1);
   const [val1, setVal1] = useState('');
   const [isVisible1, setIsVisible1] = useState(false);
   const { data: paper } = useGetPaper({ paperId: paperId!, mode: 'noAnswer' });
-  const { runAsync: submitPaper } = useSubmitPaper();
+  const { runAsync: submitPaper, loading: submitLoading } = useSubmitPaper();
   const optionsOne: ItemType<string>[] = [
     {
       name: '收藏题目'
@@ -38,6 +48,38 @@ const PaperPage = () => {
     setIsVisible1(false);
   };
 
+  const getUserAnswer = () => {
+    const userAnswer = answerSheetRef.current.map((item) => {
+      if (item.problemType === 'fillInBlank') {
+        const keys = Object.keys(item.answer).map(Number);
+        const result: any = [];
+        for (let i = 0; i <= Math.max(...keys); i++) {
+          result[i] = item.answer[i] || '';
+        }
+        item.answer = result;
+        return {
+          problemId: item.problemId,
+          answer: item.answer
+        };
+      } else if (
+        item.problemType === 'shortAnswer' ||
+        item.problemType === 'singleChoice' ||
+        item.problemType === 'TrueOrFalse'
+      ) {
+        return {
+          problemId: item.problemId,
+          answer: item.answer
+        };
+      } else {
+        return {
+          problemId: item.problemId,
+          answer: item.answer[0]
+        };
+      }
+    });
+    return userAnswer;
+  };
+
   return (
     <>
       {paper ? (
@@ -46,7 +88,7 @@ const PaperPage = () => {
             <View className={styles.time}>
               <Timer ref={timerRef} />
             </View>
-            <View className={styles.title}>{'期末试卷'}</View>
+            <View className={styles.title}>{fragmentTitle}</View>
             <View className={styles.icon}>
               <More size={15} onClick={() => setIsVisible1(true)} />
             </View>
@@ -105,36 +147,23 @@ const PaperPage = () => {
               onClick={async () => {
                 swiperRef.current.next();
                 if (currentProblemIndex === paper[0].problemList.length) {
-                  const userAnswer = answerSheetRef.current.map((item) => {
-                    if (item.problemType === 'fillInBlank') {
-                      const keys = Object.keys(item.answer).map(Number);
-                      const result: any = [];
-                      for (let i = 0; i <= Math.max(...keys); i++) {
-                        result[i] = item.answer[i] || '';
-                      }
-                      item.answer = result;
-                      return {
-                        problemId: item.problemId,
-                        answer: item.answer
-                      };
-                    } else if (
-                      item.problemType === 'shortAnswer' ||
-                      item.problemType === 'singleChoice' ||
-                      item.problemType === 'TrueOrFalse'
-                    ) {
-                      return {
-                        problemId: item.problemId,
-                        answer: item.answer
-                      };
-                    } else {
-                      return {
-                        problemId: item.problemId,
-                        answer: item.answer[0]
-                      };
-                    }
-                  });
+                  const userAnswer = getUserAnswer();
                   const time = timerRef.current?.getTime();
-                  await submitPaper({
+                  if (
+                    userAnswer.length !== paper[0].problemList.length ||
+                    userAnswer.some(
+                      (item) =>
+                        item.answer === undefined ||
+                        item.answer === '' ||
+                        item.answer === null ||
+                        (Array.isArray(item.answer) && item.answer.length === 0) ||
+                        (Array.isArray(item.answer) && item.answer.every((i) => i === ''))
+                    )
+                  ) {
+                    setAnswerModalVisible(true);
+                    return;
+                  }
+                  const res = await submitPaper({
                     paperId: paperId!,
                     userAnswer,
                     spendTime: time?.hours! * 60 * 60 + time?.minutes! * 60 + time?.seconds!,
@@ -144,6 +173,9 @@ const PaperPage = () => {
                   Taro.showToast({
                     title: '交卷成功',
                     icon: 'success'
+                  });
+                  Taro.navigateTo({
+                    url: `/pages/paper-report/index?paperId=${paperId}&courseId=${courseId}&fragmentId=${fragmentId}&fragmentTitle=${fragmentTitle}&reportId=${res._id}`
                   });
                 }
                 if (currentProblemIndex < paper[0].problemList.length) {
@@ -158,6 +190,46 @@ const PaperPage = () => {
       ) : (
         <Skeleton animated rows={30} />
       )}
+      <Dialog
+        title="提示"
+        visible={answerModalVisible}
+        footerDirection="vertical"
+        confirmText="确定"
+        cancelText="取消"
+        onConfirm={async () => {
+          const userAnswer = getUserAnswer();
+          const time = timerRef.current?.getTime();
+          setAnswerModalVisible(false);
+          const res = await submitPaper({
+            paperId: paperId!,
+            userAnswer,
+            spendTime: time?.hours! * 60 * 60 + time?.minutes! * 60 + time?.seconds!,
+            courseId: courseId!,
+            fragmentId: fragmentId!
+          });
+          Taro.navigateTo({
+            url: `/pages/paper-report/index?paperId=${paperId}&courseId=${courseId}&fragmentId=${fragmentId}&fragmentTitle=${fragmentTitle}&reportId=${res._id}`
+          });
+        }}
+        onCancel={() => {
+          setAnswerModalVisible(false);
+        }}
+      >
+        有题目未作答，确定交卷吗？
+      </Dialog>
+      <Overlay visible={submitLoading}>
+        <div
+          className="wrapper"
+          style={{
+            display: 'flex',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Loading direction="vertical">提交答案中</Loading>
+        </div>
+      </Overlay>
       <ActionSheet
         visible={isVisible1}
         options={optionsOne}

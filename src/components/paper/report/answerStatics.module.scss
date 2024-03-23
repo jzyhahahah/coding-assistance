@@ -1,0 +1,22 @@
+.container {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  .content {
+    margin-top: 15px;
+    .grid {
+      --nutui-grid-border-color: #fff;
+      --nutui-grid-item-text-color: rgb(162, 162, 162);
+      .common {
+        font-size: 20px;
+        color: rgb(27, 27, 27);
+      }
+      .correct {
+        color: rgb(15, 184, 142);
+      }
+      .wrong {
+        color: rgb(255, 88, 60);
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro';
 import { useRequest } from 'ahooks';
 import { submitPaperRequest, submitPaperResponse } from './define';
+import { useErrorHandler } from '@/api';
 
 export const submitPaperCloudFunction = async (
   params: submitPaperRequest
@@ -19,7 +20,8 @@ export const useSubmitPaper = () => {
       return reps;
     },
     {
-      manual: true
+      manual: true,
+      onError: useErrorHandler()
     }
   );
 };

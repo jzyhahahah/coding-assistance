@@ -1,0 +1,78 @@
+page {
+  background-color: #f9f9f9;
+}
+
+.container {
+  padding: 10px;
+  height: 86vh;
+  overflow: scroll;
+  .topIntro {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    .info {
+      .space {
+        width: 100%;
+        justify-content: space-between;
+        .title {
+          font-size: 17px;
+          margin-bottom: 6px;
+        }
+        .name {
+          color: rgb(157, 157, 157);
+          font-size: 15px;
+          margin-bottom: 6px;
+        }
+        .time {
+          font-size: 11px;
+          color: rgb(157, 157, 157);
+          border: 1px solid rgb(157, 157, 157);
+          padding: 4px 10px;
+          letter-spacing: 1px;
+          border-radius: 20px;
+        }
+      }
+    }
+    .progressContainer {
+      width: 100%;
+      padding: 40px 0 45px 0;
+      display: flex;
+      justify-content: center;
+      .number {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        font-size: 26px;
+        --nutui-countup-base-size: 26px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .answerStatics {
+    margin-top: 10px;
+  }
+}
+.bottomBtnContainer {
+  width: 100%;
+  height: 11vh;
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .common {
+    width: 40%;
+    padding: 23px 0px;
+    border: none;
+  }
+  .all {
+    background-color: rgb(250, 250, 250);
+    color: rgb(168, 168, 168);
+  }
+  .onlyWrong {
+    background-image: linear-gradient(to right top, #1ac5e5, #00baef, #00aef8, #00a0fe, #1990fe);
+    color: #fefefe;
+  }
+}

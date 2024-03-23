@@ -42,10 +42,11 @@ exports.main = async (event, context) => {
   const problems = paper?.problemList;
   const userAnswerMap = {};
   const userAnswerGetScoreMap = {};
-  userAnswer.forEach((answer) => {
-    userAnswerMap[answer.problemId] = answer.answer;
+  const userAnswerSituationsMap = {};
+  userAnswer?.forEach((answer) => {
+    userAnswerMap[answer.problemId] = answer?.answer || undefined;
   });
-  const score = problems.reduce((acc, problemItem) => {
+  const score = problems?.reduce((acc, problemItem) => {
     const userAnswer = userAnswerMap[problemItem.problem._id];
     const standardAnswer = problemItem.problem.answer;
     const problemType = problemItem.problem.type;
@@ -53,44 +54,79 @@ exports.main = async (event, context) => {
       const same = isSame(userAnswer, standardAnswer);
       if (same === true) {
         userAnswerGetScoreMap[problemItem.problem._id] = problemItem.mark;
+        userAnswerSituationsMap[problemItem.problem._id] = 1;
         return acc + problemItem.mark;
       } else if (same === 0.5) {
         userAnswerGetScoreMap[problemItem.problem._id] = problemItem.mark / 2;
+        userAnswerSituationsMap[problemItem.problem._id] = 0;
         return acc + problemItem.mark / 2;
       } else {
         userAnswerGetScoreMap[problemItem.problem._id] = 0;
+        if (!userAnswer || (Array.isArray(userAnswer) && userAnswer.length === 0)) {
+          userAnswerSituationsMap[problemItem.problem._id] = -1;
+        } else {
+          userAnswerSituationsMap[problemItem.problem._id] = 0;
+        }
         return acc;
       }
     }
     if (problemType === 'TrueOrFalse' || problemType === 'shortAnswer') {
       if (userAnswer === standardAnswer) {
         userAnswerGetScoreMap[problemItem.problem._id] = problemItem.mark;
+        userAnswerSituationsMap[problemItem.problem._id] = 1;
         return acc + problemItem.mark;
+      } else {
+        userAnswerGetScoreMap[problemItem.problem._id] = 0;
+        if (!userAnswer || userAnswer === '') {
+          userAnswerSituationsMap[problemItem.problem._id] = -1;
+        } else {
+          userAnswerSituationsMap[problemItem.problem._id] = 0;
+        }
+        return acc;
       }
-      userAnswerGetScoreMap[problemItem.problem._id] = 0;
     }
     if (problemType === 'fillInBlank') {
-      const itemScore = problemItem.mark / standardAnswer.length;
+      if (
+        !userAnswer ||
+        (Array.isArray(userAnswer) &&
+          (userAnswer.length === 0 || userAnswer.every((item) => item === '')))
+      ) {
+        userAnswerGetScoreMap[problemItem.problem._id] = 0;
+        userAnswerSituationsMap[problemItem.problem._id] = -1;
+        return acc;
+      }
+      const itemScore = problemItem.mark / standardAnswer?.length;
       let temp = 0;
-      standardAnswer.forEach((item, index) => {
-        if (item === userAnswer[index]) {
+      let isCorrect = true;
+      standardAnswer?.forEach((item, index) => {
+        if (item === userAnswer?.[index]) {
           temp += itemScore;
+        } else {
+          isCorrect = false;
         }
       });
+      if (isCorrect) {
+        userAnswerSituationsMap[problemItem.problem._id] = 1;
+      } else {
+        userAnswerSituationsMap[problemItem.problem._id] = 0;
+      }
       userAnswerGetScoreMap[problemItem.problem._id] = temp;
       return acc + temp;
     }
     userAnswerGetScoreMap[problemItem.problem._id] = 0;
     return acc;
   }, 0);
+
   const userAnswerSheet = problems.map((problemItem, index) => {
     return {
       problemId: problemItem.problem._id,
       userAnswer: userAnswerMap[problemItem.problem._id],
-      userScore: userAnswerGetScoreMap[problemItem.problem._id]
+      userScore: userAnswerGetScoreMap[problemItem.problem._id],
+      isCorrect: userAnswerSituationsMap[problemItem.problem._id]
     };
   });
-  const resulit = await db.collection('userAnswerSheet').add({
+
+  return await db.collection('userAnswerSheet').add({
     data: {
       paperId,
       userId: OPENID,
@@ -101,12 +137,4 @@ exports.main = async (event, context) => {
       courseId
     }
   });
-  return {
-    errMsg: 'success',
-    result: {
-      userGetScore: score,
-      spendTime,
-      id: resulit._id
-    }
-  };
 };

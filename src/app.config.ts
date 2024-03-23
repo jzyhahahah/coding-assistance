@@ -8,6 +8,7 @@ export default defineAppConfig({
     'pages/course-detail/index',
     'pages/problem-bank/index',
     'pages/paper/index',
+    'pages/paper-report/index',
     'components/account/settings/index',
     'components/account/userInfo-edit/index'
   ],
