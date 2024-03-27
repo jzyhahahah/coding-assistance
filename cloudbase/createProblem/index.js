@@ -26,7 +26,8 @@ exports.main = async (event, context) => {
         option,
         answer,
         type,
-        createAt: new Date().getTime()
+        createAt: new Date().getTime(),
+        answerNum: Array.isArray(answer) ? answer.length : 1
       }
     })
 }

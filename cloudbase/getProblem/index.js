@@ -14,7 +14,7 @@ exports.main = async (event, context) => {
   const limit = pageSize;
   const match = {
     type: category?.indexOf('all') !== -1 ? undefined : _.in(category),
-    _id: problemId ?? undefined,
+    _id: problemId ? _.in(problemId) : undefined,
     problemStatement: problemStatement
       ? db.RegExp({
           regexp: problemStatement,

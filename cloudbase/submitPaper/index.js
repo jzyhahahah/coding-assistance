@@ -126,6 +126,39 @@ exports.main = async (event, context) => {
     };
   });
 
+  const { data: wrongAnswer } = await db
+    .collection('wrongAnswer')
+    .where({
+      userId: OPENID
+    })
+    .get();
+
+  if (wrongAnswer.length === 0) {
+    await db.collection('wrongAnswer').add({
+      data: {
+        userId: OPENID,
+        wrongAnswerProblemId: userAnswerSheet
+          .filter((item) => item.isCorrect !== 1)
+          .map((v) => v.problemId)
+      }
+    });
+  } else {
+    // 更新错题集 考虑去重
+    const wrongAnswerProblemId = wrongAnswer[0].wrongAnswerProblemId;
+    const newWrongAnswerProblemId = userAnswerSheet
+      .filter((item) => item.isCorrect !== 1)
+      .map((v) => v.problemId);
+    const wrongAnswerSet = new Set([...wrongAnswerProblemId, ...newWrongAnswerProblemId]);
+    await db
+      .collection('wrongAnswer')
+      .where({ userId: OPENID })
+      .update({
+        data: {
+          wrongAnswerProblemId: Array.from(wrongAnswerSet)
+        }
+      });
+  }
+
   return await db.collection('userAnswerSheet').add({
     data: {
       paperId,

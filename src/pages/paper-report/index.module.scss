@@ -3,55 +3,8 @@ page {
 }
 
 .container {
-  padding: 10px;
   height: 86vh;
   overflow: scroll;
-  .topIntro {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    .info {
-      .space {
-        width: 100%;
-        justify-content: space-between;
-        .title {
-          font-size: 17px;
-          margin-bottom: 6px;
-        }
-        .name {
-          color: rgb(157, 157, 157);
-          font-size: 15px;
-          margin-bottom: 6px;
-        }
-        .time {
-          font-size: 11px;
-          color: rgb(157, 157, 157);
-          border: 1px solid rgb(157, 157, 157);
-          padding: 4px 10px;
-          letter-spacing: 1px;
-          border-radius: 20px;
-        }
-      }
-    }
-    .progressContainer {
-      width: 100%;
-      padding: 40px 0 45px 0;
-      display: flex;
-      justify-content: center;
-      .number {
-        display: flex;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        font-size: 26px;
-        --nutui-countup-base-size: 26px;
-        margin-bottom: 10px;
-      }
-    }
-  }
-  .answerStatics {
-    margin-top: 10px;
-  }
 }
 .bottomBtnContainer {
   width: 100%;

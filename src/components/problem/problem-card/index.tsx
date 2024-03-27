@@ -57,7 +57,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
             icon={<Copy />}
             onClick={() => {
               Taro.setClipboardData({
-                data: '122452452343456',
+                data: question._id,
                 success: function () {
                   Taro.showToast({
                     title: '复制成功',

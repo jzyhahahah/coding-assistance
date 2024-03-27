@@ -17,6 +17,13 @@
           "scene": null
         },
         {
+          "name": "pages/paper-report/index",
+          "pathName": "pages/paper-report/index",
+          "query": "paperId=0601950565f19375022337d6575514a6&courseId=7027b65465b8e86b0931b845628f0b4b&fragmentId=3fa9b31265f3aa28025d0e0d7e3ec625&reportId=2b13da7f65feea9904017bfb254acc62",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/paper/index",
           "pathName": "pages/paper/index",
           "query": "fragmentId=3fa9b31265f3aa28025d0e0d7e3ec625&courseId=7027b65465b8e86b0931b845628f0b4b&paperId=0601950565f19375022337d6575514a6",

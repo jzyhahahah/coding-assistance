@@ -1,7 +1,7 @@
 import { Question } from '@/components/problem/question-viewer/define';
 
 export interface GetProblemRequest {
-  problemId?: string;
+  problemId?: string[];
   category?: string[];
   problemStatement?: string;
   current: number;

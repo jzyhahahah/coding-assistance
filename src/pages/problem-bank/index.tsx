@@ -60,7 +60,7 @@ const ProblemBankPage = () => {
       <Form
         form={form}
         onFinish={(value) => {
-          getProblems({ ...value, current, pageSize });
+          getProblems({ ...value, current, pageSize  });
         }}
       >
         <Form.Item name="problemStatement">
@@ -68,11 +68,7 @@ const ProblemBankPage = () => {
         </Form.Item>
         <View className={styles.filterContainer}>
           <Form.Item name="category">
-            <Checkbox.Group
-              direction="horizontal"
-              onChange={(val) => {
-              }}
-            >
+            <Checkbox.Group direction="horizontal" onChange={(val) => {}}>
               <Space wrap style={{ marginBottom: 10 }}>
                 {checkBoxList.map((item) => {
                   return (
