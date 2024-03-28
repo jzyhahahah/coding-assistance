@@ -9,6 +9,7 @@ export default defineAppConfig({
     'pages/problem-bank/index',
     'pages/paper/index',
     'pages/paper-report/index',
+    'pages/wrong-book/index',
     'components/account/settings/index',
     'components/account/userInfo-edit/index'
   ],

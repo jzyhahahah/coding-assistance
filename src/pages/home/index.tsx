@@ -8,7 +8,7 @@ import CourseCard from '@/components/course/course-card';
 import { useAuth } from '@/components/hoc/with-auth';
 import { Button, Empty, Grid, Progress, Space, Swiper, Tabs } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
-import Taro, { useDidShow } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
 import { useEffect } from 'react';
 import styles from './index.module.scss';
 
@@ -29,7 +29,7 @@ const Home = () => {
   return (
     <>
       <View className={styles.container}>
-        {isLogined ?
+        {isLogined ? (
           <>
             <View className={styles.topUserName}>{user?.nickName}</View>
             <View className={styles.topCodingExp}>{user?.coding}</View>
@@ -42,7 +42,12 @@ const Home = () => {
                       <span className={styles.mainNumber}>{20}</span>
                       <span className={styles.subffix}>/ 60分钟</span>
                     </View>
-                    <Progress percent={30} background="#fff" color="rgb(46,48,48)" strokeWidth="5" />
+                    <Progress
+                      percent={30}
+                      background="#fff"
+                      color="rgb(46,48,48)"
+                      strokeWidth="5"
+                    />
                   </Space>
                 </View>
                 <View className={styles.right}>
@@ -56,8 +61,10 @@ const Home = () => {
                 </View>
               </Space>
             </View>
-          </> : <View className={styles.noLogin}>{"请先登录"}</View>
-        }
+          </>
+        ) : (
+          <View className={styles.noLogin}>{'请先登录'}</View>
+        )}
       </View>
       <View className={styles.bottomContainer}>
         <Grid className={styles.linkBtns} columns={2}>
@@ -70,7 +77,12 @@ const Home = () => {
             </Button>
           </Grid.Item>
           <Grid.Item>
-            <Button className={styles.linkBtn}>错题本</Button>
+            <Button
+              className={styles.linkBtn}
+              onClick={() => Taro.navigateTo({ url: '/pages/wrong-book/index' })}
+            >
+              错题本
+            </Button>
           </Grid.Item>
           <Grid.Item>
             <Button className={styles.linkBtn}>我的收藏</Button>
@@ -97,34 +109,41 @@ const Home = () => {
         <Tabs activeType="smile" className={styles.tabs}>
           <Tabs.TabPane title="我的课程">
             <Space direction="vertical" style={{ gap: 8 }}>
-              {isLogined ? myCourse?.list?.map((item) => {
-                return (
-                  <CourseCard
-                    key={item.courseId}
-                    courseID={item.courseId}
-                    courseName={item.courseName}
-                    tags={item.tags}
-                    progress={item?.progress}
-                  />
-                );
-              }) : <Empty className={styles.Empty} description="请先登录" />}
+              {isLogined ? (
+                myCourse?.list?.map((item) => {
+                  return (
+                    <CourseCard
+                      key={item.courseId}
+                      courseID={item.courseId}
+                      courseName={item.courseName}
+                      tags={item.tags}
+                      progress={item?.progress}
+                    />
+                  );
+                })
+              ) : (
+                <Empty className={styles.Empty} description="请先登录" />
+              )}
             </Space>
           </Tabs.TabPane>
           <Tabs.TabPane title="全部课程">
             <Space direction="vertical">
-              {isLogined ? allCourses?.map((item) => {
-                return (
-                  <CourseCard
-                    key={item.courseId}
-                    courseName={item.courseName}
-                    tags={item.tags}
-                    courseID={item.courseId}
-                  />
-                );
-              }) : <Empty className={styles.Empty} description="请先登录" />}
+              {isLogined ? (
+                allCourses?.map((item) => {
+                  return (
+                    <CourseCard
+                      key={item.courseId}
+                      courseName={item.courseName}
+                      tags={item.tags}
+                      courseID={item.courseId}
+                    />
+                  );
+                })
+              ) : (
+                <Empty className={styles.Empty} description="请先登录" />
+              )}
             </Space>
           </Tabs.TabPane>
-
         </Tabs>
       </View>
     </>

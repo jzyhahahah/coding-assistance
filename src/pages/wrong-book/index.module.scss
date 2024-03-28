@@ -1,0 +1,65 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  .progressContainer {
+    flex: 0.5;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px 15px;
+    color: #ccc;
+    .progress {
+      margin-right: 10px;
+    }
+    .number {
+      display: flex;
+    }
+  }
+  .problemContainer {
+    width: 100%;
+    flex: 12;
+  }
+  .footBtn {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .common {
+      border-radius: 6px;
+      width: 35vw;
+      height: 11vw;
+      border: none;
+    }
+
+    .prev {
+      background-color: #eeeeee;
+      color: #7e7e7e;
+    }
+
+    .next {
+      color: #fefefe;
+      background-image: linear-gradient(to right top, #1ac5e5, #00baef, #00aef8, #00a0fe, #1990fe);
+      opacity: 1;
+      transition: all 0.3s ease-in-out;
+
+      &:active {
+        opacity: 0.8;
+      }
+    }
+  }
+  :global(.nut-swiper) {
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  :global(.nut-swiper-inner) {
+    height: 100% !important;
+    width: 100% !important;
+  }
+  swiper-item {
+    overflow: scroll;
+  }
+}
