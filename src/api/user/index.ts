@@ -4,7 +4,9 @@ import {
   getUserInfoRequest,
   getUserInfoRespones,
   updateUserInfoRequest,
-  updateUserInfoRespones
+  updateUserInfoRespones,
+  updateUsernamesRequest,
+  updateUsernamesRespones
 } from './define';
 
 const getUserInfoCloudFunction = async (req: getUserInfoRequest): Promise<getUserInfoRespones> => {
@@ -41,6 +43,28 @@ export const useUpdateUserInfo = () => {
   return useRequest(
     async (params: updateUserInfoRequest) => {
       const resp = await updateUserInfoCloudFunction(params);
+      return resp;
+    },
+    {
+      manual: true
+    }
+  );
+};
+
+const updateUsernamesCloudFunction = async (
+  req: updateUsernamesRequest
+): Promise<updateUsernamesRespones> => {
+  const resp = (await Taro.cloud.callFunction({
+    name: 'updateUsername',
+    data: req
+  })) as any;
+  return resp?.result;
+};
+
+export const useUpdateUsername = () => {
+  return useRequest(
+    async (params: updateUsernamesRequest) => {
+      const resp = await updateUsernamesCloudFunction(params);
       return resp;
     },
     {

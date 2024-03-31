@@ -210,6 +210,7 @@ const PaperPage = () => {
           Taro.redirectTo({
             url: `/pages/paper-report/index?paperId=${paperId}&courseId=${courseId}&fragmentId=${fragmentId}&fragmentTitle=${fragmentTitle}&reportId=${res._id}`
           });
+          return () => { };
         }}
         onCancel={() => {
           setAnswerModalVisible(false);

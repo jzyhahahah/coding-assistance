@@ -1,15 +1,26 @@
 import { useGetAllCourse } from '@/api/course/getAllCourse';
 import { useGetAllMyCourse } from '@/api/course/getMyCourses';
+import { useUpdateUsername } from '@/api/user';
 import swiper1 from '@/assets/swiper/swiper-1.jpg';
 import swiper2 from '@/assets/swiper/swiper-2.jpg';
 import swiper3 from '@/assets/swiper/swiper-3.jpg';
 import swiper4 from '@/assets/swiper/swiper-4.jpg';
 import CourseCard from '@/components/course/course-card';
 import { useAuth } from '@/components/hoc/with-auth';
-import { Button, Empty, Grid, Progress, Space, Swiper, Tabs } from '@nutui/nutui-react-taro';
+import {
+  Button,
+  Dialog,
+  Empty,
+  Grid,
+  Input,
+  Progress,
+  Space,
+  Swiper,
+  Tabs
+} from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
 const Home = () => {
@@ -17,7 +28,10 @@ const Home = () => {
   const swipers = [swiper1, swiper2, swiper3, swiper4];
   const { data: allCourses, runAsync: getAll } = useGetAllCourse();
   const { data: myCourse, runAsync: getMy } = useGetAllMyCourse();
+  const { runAsync: updateUsername } = useUpdateUsername();
   const { user, isLogined } = useAuth();
+  const [visible, setVisible] = useState(false);
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     if (isLogined) {
@@ -25,6 +39,12 @@ const Home = () => {
       getMy();
     }
   }, [isLogined]);
+
+  useEffect(() => {
+    if (user && !user.username) {
+      setVisible(true);
+    }
+  }, [user]);
 
   return (
     <>
@@ -146,6 +166,37 @@ const Home = () => {
           </Tabs.TabPane>
         </Tabs>
       </View>
+      <Dialog
+        className="test-dialog"
+        title="修改用户名"
+        visible={visible}
+        onConfirm={async () => {
+          if (!username) {
+            Taro.showToast({ title: '用户名不能为空', icon: 'error' });
+            return () => {};
+          }
+          const res = await updateUsername({ username });
+          if (res.code === 0) {
+            Taro.showToast({ title: '修改成功', icon: 'success' });
+            setVisible(false);
+          } else {
+            Taro.showToast({ title: '用户名已被使用！', icon: 'error' });
+          }
+          return () => {};
+        }}
+        onCancel={() => setVisible(false)}
+        closeOnOverlayClick={false}
+        hideCancelButton
+      >
+        请修改用户名,有且仅有一次机会!!!
+        <Input
+          placeholder="请输入用户名"
+          value={username}
+          onChange={(e) => {
+            setUsername(e);
+          }}
+        />
+      </Dialog>
     </>
   );
 };

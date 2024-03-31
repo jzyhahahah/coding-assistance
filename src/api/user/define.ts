@@ -30,3 +30,12 @@ export interface updateUserInfoRespones {
     updated: number;
   };
 }
+
+export interface updateUsernamesRequest {
+  username: string;
+}
+
+export interface updateUsernamesRespones {
+  code: number;
+  message: string;
+}

@@ -2,7 +2,7 @@ import { useGetUserInfo } from '@/api/user';
 import { LoginRequest, LoginRespones } from '@/api/user/define';
 import { Col, Row, Space } from '@nutui/nutui-react-taro';
 import Taro from '@tarojs/taro';
-import { useLocalStorageState, useRequest } from 'ahooks';
+import { useRequest } from 'ahooks';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthInfo, UserInfo } from './define';
 
@@ -16,7 +16,7 @@ const AuthContext = React.createContext<AuthInfo>({
   login: showWarning as any,
   refresh: showWarning,
   logout: showWarning,
-  isLogined:false
+  isLogined: false
 });
 
 const loginCloudFunction = async (req: LoginRequest): Promise<LoginRespones> => {
@@ -46,8 +46,8 @@ const RainbowCat: React.FC<{ text: string }> = ({ text }) => (
 
 export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserInfo | null>();
-  const [isLogined,setIsLogined] = useState(false);
-  const { runAsync: getUserInfoAysnc } = useGetUserInfo();
+  const [isLogined, setIsLogined] = useState(false);
+  const { runAsync: getUserInfoAysnc, refresh: getUserInfoRefresh } = useGetUserInfo();
   const logoutSuccessMsg = '退出登录成功';
   const logoutErrorMsg = '退出登录失败';
   useEffect(() => {
@@ -56,7 +56,7 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
       success: async function (res) {
         //console.log(res.data)
         setIsLogined(true);
-        const info = await getUserInfoAysnc({ _openid: res.data });
+        const info = await getUserInfoAysnc({ _openid: res?.data });
         setUser(info);
       },
       fail: function (res) {
@@ -113,6 +113,10 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = ({ children }) 
       });
     } catch {}
   };
+
+
+
+
   return (
     <AuthContext.Provider
       value={{

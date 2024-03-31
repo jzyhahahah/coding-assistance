@@ -2,16 +2,17 @@ import consultQr from '@/assets/consult_qr.png';
 import { useGetSafeHeight } from '@/common/hooks';
 import { useAuth } from '@/components/hoc/with-auth';
 import { ArrowRight, Message, Setting, Star } from '@nutui/icons-react-taro';
-import { Avatar, Button, Cell, Dialog } from '@nutui/nutui-react-taro';
+import { Avatar, Button, Cell, Dialog, Input } from '@nutui/nutui-react-taro';
 import { Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './index.module.scss';
 
 const Account = () => {
   const height = useGetSafeHeight();
   const [contactShow, setContactShow] = useState(false);
   const { login, user } = useAuth();
+  const [visible, setVisible] = useState(false);
 
   const handlerLogin = async (e) => {
     e.stopPropagation();
@@ -64,6 +65,9 @@ const Account = () => {
             </div>
           }
           extra={<ArrowRight />}
+          onClick={() => {
+            setVisible(true);
+          }}
         />
         <Cell
           title={
@@ -112,6 +116,21 @@ const Account = () => {
       >
         <Image src={consultQr} className={styles.qr} />
         <div className={styles.contact_bottom}>{'微信扫码'}</div>
+      </Dialog>
+      <Dialog
+        className="test-dialog"
+        title="自定义内容区域"
+        visible={visible}
+        onConfirm={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+      >
+        请修改用户名,有且仅有一次机会
+        <Input
+          placeholder="请输入文本"
+          onChange={(v) => {
+            console.log('onChange', v);
+          }}
+        />
       </Dialog>
     </div>
   );
