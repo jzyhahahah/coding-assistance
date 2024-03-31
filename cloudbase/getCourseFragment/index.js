@@ -35,6 +35,9 @@ exports.main = async (event, context) => {
     .addFields({
       fragmentId: '$_id'
     })
+    .sort({
+      seq: 1
+    })
     .project({
       _id: 0
     })
