@@ -3,10 +3,10 @@ import { useGetCourseFragment } from '@/api/course/getCourseFragment';
 import { useUpdateCourseProgress } from '@/api/course/updateCourseProgress';
 import CourseFragmentCard from '@/components/course/course-fragment-card';
 import { Loading1, PlayCircleFill } from '@nutui/icons-react-taro';
-import { Dialog, Skeleton, Video } from '@nutui/nutui-react-taro';
+import { Dialog, Empty, Skeleton, Video } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
 const CourseDetail = () => {
@@ -77,7 +77,7 @@ const CourseDetail = () => {
           {loading ? (
             <Skeleton rows={10} animated />
           ) : fragments?.errMsg !== 'NoChoosed' ? (
-            fragments?.list.map((item, index) => (
+            fragments?.list?.length! > 0 ? fragments?.list.map((item, index) => (
               <CourseFragmentCard
                 key={item.fragmentId}
                 index={index + 1}
@@ -100,37 +100,37 @@ const CourseDetail = () => {
                   index + 1 === selectedIndex ? (
                     <Loading1 />
                   ) : (
-                    <PlayCircleFill size={20} color="#666666" />
-                  )
+                      <PlayCircleFill size={20} color="#666666" />
+                    )
                 }
               />
-            ))
+            )) : <Empty description="暂无内容" imageSize={80} />
           ) : (
-            <Dialog
-              title="暂未选择该课程"
-              visible={visible}
-              onConfirm={async () => {
-                setVisible(false);
-                const res = await addCourse({ courseId: route?.params?.courseId || '' });
-                if (res?.errMsg.indexOf('ok') !== -1) {
-                  Taro.showToast({
-                    title: '选择成功',
-                    icon: 'success',
-                    duration: 2000
-                  });
-                }
-                // 刷新课程页面
-                refresh();
-                return () => { }; // 返回一个空函数
-              }}
-              onCancel={() => {
-                setVisible(false);
-                Taro.navigateBack();
-              }}
-            >
-              {'您是否要选择该课程？'}
-            </Dialog>
-          )}
+                <Dialog
+                  title="暂未选择该课程"
+                  visible={visible}
+                  onConfirm={async () => {
+                    setVisible(false);
+                    const res = await addCourse({ courseId: route?.params?.courseId || '' });
+                    if (res?.errMsg.indexOf('ok') !== -1) {
+                      Taro.showToast({
+                        title: '选择成功',
+                        icon: 'success',
+                        duration: 2000
+                      });
+                    }
+                    // 刷新课程页面
+                    refresh();
+                    return () => { }; // 返回一个空函数
+                  }}
+                  onCancel={() => {
+                    setVisible(false);
+                    Taro.navigateBack();
+                  }}
+                >
+                  {'您是否要选择该课程？'}
+                </Dialog>
+              )}
         </View>
       </View>
     </>

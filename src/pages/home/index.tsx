@@ -19,7 +19,7 @@ import {
   Tabs
 } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
@@ -39,6 +39,12 @@ const Home = () => {
       getMy();
     }
   }, [isLogined]);
+
+  useDidShow(()=>{
+    if(user?._openid){
+      getMy();
+    }
+  })
 
   useEffect(() => {
     if (user && !user.username) {
@@ -83,8 +89,8 @@ const Home = () => {
             </View>
           </>
         ) : (
-          <View className={styles.noLogin}>{'请先登录'}</View>
-        )}
+            <View className={styles.noLogin}>{'请先登录'}</View>
+          )}
       </View>
       <View className={styles.bottomContainer}>
         <Grid className={styles.linkBtns} columns={2}>
@@ -130,7 +136,7 @@ const Home = () => {
           <Tabs.TabPane title="我的课程">
             <Space direction="vertical" style={{ gap: 8 }}>
               {isLogined ? (
-                myCourse?.list?.map((item) => {
+                myCourse?.list.length! > 0 ? myCourse?.list?.map((item) => {
                   return (
                     <CourseCard
                       key={item.courseId}
@@ -140,10 +146,10 @@ const Home = () => {
                       progress={item?.progress}
                     />
                   );
-                })
+                }) : <Empty description="未选课" imageSize={80} />
               ) : (
-                <Empty className={styles.Empty} description="请先登录" />
-              )}
+                  <Empty className={styles.Empty} description="请先登录" />
+                )}
             </Space>
           </Tabs.TabPane>
           <Tabs.TabPane title="全部课程">
@@ -160,8 +166,8 @@ const Home = () => {
                   );
                 })
               ) : (
-                <Empty className={styles.Empty} description="请先登录" />
-              )}
+                  <Empty className={styles.Empty} description="请先登录" />
+                )}
             </Space>
           </Tabs.TabPane>
         </Tabs>
@@ -173,7 +179,7 @@ const Home = () => {
         onConfirm={async () => {
           if (!username) {
             Taro.showToast({ title: '用户名不能为空', icon: 'error' });
-            return () => {};
+            return () => { };
           }
           const res = await updateUsername({ username });
           if (res.code === 0) {
@@ -182,7 +188,7 @@ const Home = () => {
           } else {
             Taro.showToast({ title: '用户名已被使用！', icon: 'error' });
           }
-          return () => {};
+          return () => { };
         }}
         onCancel={() => setVisible(false)}
         closeOnOverlayClick={false}

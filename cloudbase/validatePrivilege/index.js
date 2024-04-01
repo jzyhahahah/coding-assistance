@@ -20,7 +20,7 @@ exports.main = async (event, context) => {
       message: '用户不存在'
     };
   }
-  if (user.data[0].isAdmin !== expect) {
+  if (user.data[0].isAdmin > expect) {
     return {
       code: 1,
       message: '权限不足'
@@ -28,6 +28,7 @@ exports.main = async (event, context) => {
   }
   return {
     code: 0,
-    message: '权限验证成功'
+    message: '权限验证成功',
+    privilege: user.data[0].isAdmin
   };
 };

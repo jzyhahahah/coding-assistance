@@ -72,7 +72,7 @@ const UserInfoEdit = () => {
                 url="#"
               />
             </Form.Item>
-            <Form.Item required label="昵称" name="nickName" initialValue={user?.nickName}>
+            <Form.Item required label="真实姓名" name="nickName" initialValue={user?.nickName}>
               <Input className="nut-input-text" placeholder="请输入昵称" type="text" />
             </Form.Item>
             <Form.Item required label="性别" name="gender" initialValue={user?.gender}>
