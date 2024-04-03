@@ -7,10 +7,8 @@ cloud.init({
 const db = cloud.database();
 const _ = db.command;
 const $ = db.command.aggregate;
-
-// 将题目添加到试卷中
 exports.main = async (event, context) => {
-  const { courseName, tags, openid } = event;
+  const { courseName, tags, openid, courseId } = event;
   const isAdmin = await cloud.callFunction({
     name: 'validatePrivilege',
     data: {
@@ -24,12 +22,10 @@ exports.main = async (event, context) => {
       message: '权限不足'
     };
   }
-  const course = await db.collection('course').add({
+  const course = await db.collection('course').doc(courseId).update({
     data: {
       courseName,
-      tags,
-      teachers: [],
-      students: []
+      tags
     }
   });
   return course;
