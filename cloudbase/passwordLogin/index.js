@@ -27,6 +27,19 @@ exports.main = async (event, context) => {
       message: '用户名或密码错误'
     };
   }
+  const isAdmin = await cloud.callFunction({
+    name: 'validatePrivilege',
+    data: {
+      openid: res.data[0]._openid,
+      expect: 2
+    }
+  });
+  if (isAdmin.result.code !== 0) {
+    return {
+      code: 403,
+      message: '权限不足'
+    };
+  }
   return {
     code: 200,
     message: '登录成功',
