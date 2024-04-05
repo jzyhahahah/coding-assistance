@@ -9,30 +9,18 @@ const _ = db.command;
 const $ = db.command.aggregate;
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const {
-    videoId,
-    fragmentId
-  } = event;
-  // 更新时，将原来的video删除
-  const {
-    data: {
-      videoUrl: oldVideoId
-    }
-  } = await db.collection('courseFragment').doc(fragmentId).field({
-    videoUrl: true
-  }).get();
-  if (oldVideoId) {
-    await cloud.deleteFile({
-      fileList: [oldVideoId]
-    });
+  const { paperId, fragmentId, title } = event;
+  const updateData = {};
+  if (paperId) {
+    updateData.paperId = paperId;
   }
-
+  if (title) {
+    updateData.fragmentTitle = title;
+  }
   return await db
     .collection('courseFragment')
     .doc(fragmentId)
     .update({
-      data: {
-        videoUrl: videoId
-      }
+      data: updateData
     });
 };

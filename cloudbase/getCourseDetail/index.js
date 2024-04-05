@@ -10,34 +10,18 @@ const $ = db.command.aggregate;
 exports.main = async (event, context) => {
   const { courseId } = event;
 
-  const fragments = await db
-    .collection('courseFragment')
-    .aggregate()
-    .match({
-      courseId
-    })
-    .sort({
-      seq: 1
-    })
-    .project({
-      courseId: 0
-    })
-    .end();
-  const videoIds = fragments.list.map((fragment) => fragment.videoUrl).filter(Boolean);
-  const fileList = (
-    await cloud.getTempFileURL({
-      fileList: videoIds
-    })
-  ).fileList.map((file) => ({
-    fileID: file.fileID,
-    tempFileURL: file.tempFileURL
-  }));
-  console.log(fileList);
-
   const courseInfo = await db
     .collection('course')
     .aggregate()
-    .match({ _id: courseId })
+    .match({
+      _id: courseId
+    })
+    .lookup({
+      from: 'courseFragment',
+      localField: 'fragments.fragmentId',
+      foreignField: '_id',
+      as: 'fragmentList'
+    })
     .lookup({
       from: 'userInfo',
       localField: 'teachers',
@@ -51,9 +35,29 @@ exports.main = async (event, context) => {
       as: 'students'
     })
     .end();
+  const fragments = courseInfo.list[0].fragments;
+  const fragmentList = courseInfo.list[0].fragmentList;
+  const newFragmentList = fragmentList?.map((fragment) => {
+    const { seq } = fragments.find((f) => f.fragmentId === fragment._id);
+    return {
+      ...fragment,
+      seq
+    };
+  });
+  const videoIds = newFragmentList?.map((fragment) => fragment.videoUrl).filter(Boolean);
+  const fileList = (
+    await cloud.getTempFileURL({
+      fileList: videoIds
+    })
+  ).fileList.map((file) => ({
+    fileID: file.fileID,
+    tempFileURL: file.tempFileURL
+  }));
+
   return {
     ...courseInfo.list[0],
-    fragments: fragments.list.map((fragment) => {
+    fragmentList: undefined,
+    fragments: newFragmentList?.map((fragment) => {
       const video = fileList.find((file) => file.fileID === fragment.videoUrl);
       return {
         ...fragment,

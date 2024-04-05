@@ -6,7 +6,7 @@ import { Loading1, PlayCircleFill } from '@nutui/icons-react-taro';
 import { Dialog, Empty, Skeleton, Video } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
 const CourseDetail = () => {
@@ -52,7 +52,7 @@ const CourseDetail = () => {
         url: `/pages/paper/index?fragmentId=${fragments?.list?.[selectedIndex - 1]?.fragmentId}&courseId=${route?.params?.courseId}`
       });
     } */
-  }, [selectedIndex])
+  }, [selectedIndex]);
 
   const handleUpdateCourseProgress = async () => {
     const fragmentId = fragments?.list?.[selectedIndex - 1]?.fragmentId || '';
@@ -77,60 +77,72 @@ const CourseDetail = () => {
           {loading ? (
             <Skeleton rows={10} animated />
           ) : fragments?.errMsg !== 'NoChoosed' ? (
-            fragments?.list?.length! > 0 ? fragments?.list.map((item, index) => (
-              <CourseFragmentCard
-                key={item.fragmentId}
-                index={index + 1}
-                title={item.fragmentTitle}
-                style={
-                  index + 1 === selectedIndex
-                    ? { backgroundColor: 'rgba(253,240,15,0.1)', transition: 'all 0.2s ease-in' }
-                    : {}
-                }
-                onClick={() => {
-                  setSelectedIndex(index + 1)
-                  if (item.type === 'paper') {
-                    Taro.navigateTo({
-                      url: `/pages/paper/index?fragmentId=${fragments?.list?.[index]?.fragmentId}&courseId=${route?.params?.courseId}&paperId=${fragments?.list?.[index]?.paperId}&fragmentTitle=${fragments?.list?.[index]?.fragmentTitle}
+            fragments?.list?.length! > 0 ? (
+              fragments?.list
+                .sort((a, b) => a.seq - b.seq)
+                .filter((item) => item.videoUrl || item.paperId)
+                .map((item, index) => {
+                  return (
+                    <CourseFragmentCard
+                      key={item.fragmentId}
+                      index={index + 1}
+                      title={item.fragmentTitle}
+                      style={
+                        index + 1 === selectedIndex
+                          ? {
+                              backgroundColor: 'rgba(253,240,15,0.1)',
+                              transition: 'all 0.2s ease-in'
+                            }
+                          : {}
+                      }
+                      onClick={() => {
+                        setSelectedIndex(index + 1);
+                        if (item.type === 'paper') {
+                          Taro.navigateTo({
+                            url: `/pages/paper/index?fragmentId=${fragments?.list?.[index]?.fragmentId}&courseId=${route?.params?.courseId}&paperId=${fragments?.list?.[index]?.paperId}&fragmentTitle=${fragments?.list?.[index]?.fragmentTitle}
                       `
-                    });
-                  }
-                }}
-                icon={
-                  index + 1 === selectedIndex ? (
-                    <Loading1 />
-                  ) : (
-                      <PlayCircleFill size={20} color="#666666" />
-                    )
-                }
-              />
-            )) : <Empty description="暂无内容" imageSize={80} />
+                          });
+                        }
+                      }}
+                      icon={
+                        index + 1 === selectedIndex ? (
+                          <Loading1 />
+                        ) : (
+                          <PlayCircleFill size={20} color="#666666" />
+                        )
+                      }
+                    />
+                  );
+                })
+            ) : (
+              <Empty description="暂无内容" imageSize={80} />
+            )
           ) : (
-                <Dialog
-                  title="暂未选择该课程"
-                  visible={visible}
-                  onConfirm={async () => {
-                    setVisible(false);
-                    const res = await addCourse({ courseId: route?.params?.courseId || '' });
-                    if (res?.errMsg.indexOf('ok') !== -1) {
-                      Taro.showToast({
-                        title: '选择成功',
-                        icon: 'success',
-                        duration: 2000
-                      });
-                    }
-                    // 刷新课程页面
-                    refresh();
-                    return () => { }; // 返回一个空函数
-                  }}
-                  onCancel={() => {
-                    setVisible(false);
-                    Taro.navigateBack();
-                  }}
-                >
-                  {'您是否要选择该课程？'}
-                </Dialog>
-              )}
+            <Dialog
+              title="暂未选择该课程"
+              visible={visible}
+              onConfirm={async () => {
+                setVisible(false);
+                const res = await addCourse({ courseId: route?.params?.courseId || '' });
+                if (res?.errMsg.indexOf('ok') !== -1) {
+                  Taro.showToast({
+                    title: '选择成功',
+                    icon: 'success',
+                    duration: 2000
+                  });
+                }
+                // 刷新课程页面
+                refresh();
+                return () => {}; // 返回一个空函数
+              }}
+              onCancel={() => {
+                setVisible(false);
+                Taro.navigateBack();
+              }}
+            >
+              {'您是否要选择该课程？'}
+            </Dialog>
+          )}
         </View>
       </View>
     </>

@@ -5,6 +5,7 @@ export interface CourseFragment {
   type: 'video' | 'paper';
   paperId?: string;
   videoUrl?: string;
+  seq: number;
 }
 
 export interface CourseFragmentRequest {

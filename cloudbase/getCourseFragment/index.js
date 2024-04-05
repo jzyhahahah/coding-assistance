@@ -26,7 +26,18 @@ exports.main = async (event, context) => {
     };
   }
 
-  return await db
+  const {
+    data: { fragments }
+  } = await db
+    .collection('course')
+    .doc(courseId)
+    .field({
+      fragments: true
+    })
+    .get();
+  console.log(fragments);
+
+  const result = await db
     .collection('courseFragment')
     .aggregate()
     .match({
@@ -42,4 +53,15 @@ exports.main = async (event, context) => {
       _id: 0
     })
     .end();
+  const newList = result?.list?.map((item) => {
+    const newSeq = fragments.find((fragment) => fragment.fragmentId === item.fragmentId).seq;
+    return {
+      ...item,
+      seq: newSeq
+    };
+  });
+  return {
+    list: newList,
+    errMsg: 'OK'
+  };
 };
