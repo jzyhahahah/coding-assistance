@@ -30,12 +30,31 @@ exports.main = async (event, context) => {
   }
 
   //查询
-  const { data: list } = await db
+  const { list } = await db
     .collection('paper')
-    .where(condition)
+    .aggregate()
+    .match(condition)
+    .lookup({
+      from: 'courseFragment',
+      localField: '_id',
+      foreignField: 'paperId',
+      as: 'refered'
+    })
+    .lookup({
+      from: 'course',
+      localField: 'refered.courseId',
+      foreignField: '_id',
+      as: 'course'
+    })
+    .project({
+      'course.fragments': 0,
+      'course.teachers': 0,
+      'course.students': 0,
+      'course.tags': 0
+    })
     .skip((current - 1) * pageSize)
     .limit(pageSize)
-    .get();
+    .end();
 
   const { total } = await db.collection('paper').where(condition).count();
   return {

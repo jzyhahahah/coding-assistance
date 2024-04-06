@@ -29,7 +29,7 @@ exports.main = async (event, context) => {
   }
   const privilege = isOk.result.privilege;
   if (privilege === 2) {
-    return await db
+    const res = await db
       .collection('course')
       .aggregate()
       .match({
@@ -51,9 +51,12 @@ exports.main = async (event, context) => {
       .project({
         teachers: 0,
         'courseTeachers.password': 0,
-        'courseTeachers._openid': 0
       })
       .end();
+    return {
+      code: 200,
+      data: res
+    }
   }
   const res = await db
     .collection('course')
@@ -76,7 +79,6 @@ exports.main = async (event, context) => {
     .project({
       teachers: 0,
       'courseTeachers.password': 0,
-      'courseTeachers._openid': 0
     })
     .end();
   return {

@@ -10,7 +10,7 @@ const $ = db.command.aggregate;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const { openid, username, current = 1, pageSize = 10 } = event;
+  const { openid, username, current = 1, pageSize = 10, role } = event;
   const requester = await db
     .collection('userInfo')
     .where({
@@ -32,13 +32,13 @@ exports.main = async (event, context) => {
             regexp: username,
             options: 'i'
           })
-        : undefined
+        : undefined,
+      isAdmin: Array.isArray(role) && role.length > 0 ? _.in(role) : _.exists(true)
     })
     .skip((current - 1) * pageSize)
     .limit(pageSize)
     .project({
       password: 0,
-      _openid: 0
     })
     .end();
 
@@ -50,11 +50,17 @@ exports.main = async (event, context) => {
         username: db.RegExp({
           regexp: username,
           options: 'i'
-        })
+        }),
+        isAdmin: Array.isArray(role) && role.length > 0 ? _.in(role) : _.exists(true)
       })
       .count();
   } else {
-    total = await db.collection('userInfo').count();
+    total = await db
+      .collection('userInfo')
+      .where({
+        isAdmin: Array.isArray(role) && role.length > 0 ? _.in(role) : _.exists(true)
+      })
+      .count();
   }
 
   return {

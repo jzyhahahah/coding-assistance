@@ -14,7 +14,7 @@ exports.main = async (event, context) => {
     data: { fragments }
   } = await db.collection('course').doc(courseId).field({ fragments: true }).get();
   let nextSeq = 0;
-  fragments.forEach((fragment) => {
+  fragments?.forEach((fragment) => {
     if (fragment.seq > nextSeq) {
       nextSeq = fragment.seq;
     }
