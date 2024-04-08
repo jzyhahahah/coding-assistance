@@ -10,6 +10,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/activity/index",
+          "pathName": "pages/activity/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/wrong-book/index",
           "pathName": "pages/wrong-book/index",
           "query": "",
