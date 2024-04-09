@@ -1,33 +1,62 @@
 .container {
   width: 100%;
   height: 100px;
-  background-color: cadetblue;
 
   .card {
+    margin: 20px;
     padding: 20px;
     background-color: white;
     display: flex;
+    border-radius: 6px;
+    box-shadow:
+      rgba(0, 0, 0, 0.16) 0px 3px 6px,
+      rgba(0, 0, 0, 0.23) 0px 3px 6px;
     justify-content: space-between;
 
     .left {
+      display: flex;
+      flex-direction: column;
+      -ms-flex-direction: column;
+      justify-content: space-between;
       .title {
         margin-bottom: 10px;
         font-size: 17px;
+        font-weight: 700;
+        color: #1990fe;
       }
 
       .description {
-        color: rgb(211, 211, 211);
+        font-size: 14px;
+        color: rgb(189, 189, 189);
       }
     }
 
     .right {
+      display: flex;
+      flex-direction: column;
+      -ms-flex-direction: column;
+      align-items: center;
       .score {
         margin-bottom: 10px;
         font-size: 17px;
+        display: flex;
+        align-items: center;
+        vertical-align: bottom;
+        .myScore {
+          font-size: 24px;
+          vertical-align: bottom;
+          margin-right: 10px;
+          color: #1990fe;
+        }
+        .total {
+          color: rgb(189, 189, 189);
+          font-size: 16px;
+        }
       }
 
       .time {
-        color: rgb(211, 211, 211);
+        font-size: 14px;
+        color: rgb(189, 189, 189);
       }
     }
   }

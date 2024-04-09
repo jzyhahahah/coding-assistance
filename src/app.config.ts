@@ -35,7 +35,7 @@ export default defineAppConfig({
       },
       {
         pagePath: 'pages/activity/index',
-        text: '活动'
+        text: '成绩'
       },
       {
         pagePath: 'pages/account/index',

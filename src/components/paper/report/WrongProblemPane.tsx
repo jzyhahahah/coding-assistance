@@ -2,7 +2,7 @@ import { useGetPaper } from '@/api/paper/getPaper';
 import { getPaperReportResponse } from '@/api/paper/getPaperReport/define';
 import QuestionViewer from '@/components/problem/question-viewer';
 import { Question } from '@/components/problem/question-viewer/define';
-import { Empty, Swiper } from '@nutui/nutui-react-taro';
+import { Empty, Swiper, Button } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
 import { useEffect, useRef, useState } from 'react';
 import styles from './WrongProblemPane.module.scss';
@@ -21,9 +21,9 @@ const WrongProblemPane: React.FC<WrongProblemPaneProps> = ({ paperId, userAnswer
     mode === 'all'
       ? paper?.[0]?.problemList
       : paper?.[0]?.problemList.filter(
-          (problem) =>
-            userAnswerSheet?.find((item) => item.problemId === problem.problem._id)?.isCorrect !== 1
-        );
+        (problem) =>
+          userAnswerSheet?.find((item) => item.problemId === problem.problem._id)?.isCorrect !== 1
+      );
   useEffect(() => {
     if (swiperRef.current) swiperRef.current.to(0);
   }, [mode]);
@@ -45,9 +45,12 @@ const WrongProblemPane: React.FC<WrongProblemPaneProps> = ({ paperId, userAnswer
   return (
     <>
       <View className={styles.container}>
-        <View className={styles.title}>
-          <span className={styles.label}>{'试卷名称：'}</span>
-          <span>{paper?.[0]?.name}</span>
+        <View className={styles.header}>
+          <View className={styles.title}>
+            <span className={styles.label}>{'试卷名称：'}</span>
+            <span>{paper?.[0]?.name}</span>
+          </View>
+          <Button type="primary">{"收藏题目"}</Button>
         </View>
         <View className={styles.seq}>
           <span className={styles.label}>
