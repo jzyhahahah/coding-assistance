@@ -40,11 +40,11 @@ const Home = () => {
     }
   }, [isLogined]);
 
-  useDidShow(()=>{
-    if(user?._openid){
+  useDidShow(() => {
+    if (user?._openid) {
       getMy();
     }
-  })
+  });
 
   useEffect(() => {
     if (user && !user.username) {
@@ -89,19 +89,21 @@ const Home = () => {
             </View>
           </>
         ) : (
-            <View className={styles.noLogin}>{'请先登录'}</View>
-          )}
+          <View className={styles.noLogin}>{'请先登录'}</View>
+        )}
       </View>
       <View className={styles.bottomContainer}>
-        <Grid className={styles.linkBtns} columns={2}>
-          <Grid.Item>
-            <Button
-              className={styles.linkBtn}
-              onClick={() => Taro.navigateTo({ url: '/pages/problem-bank/index' })}
-            >
-              试题库
-            </Button>
-          </Grid.Item>
+        <Grid className={styles.linkBtns} columns={user?.isAdmin !== 3 ? 3 : 2}>
+          {user?.isAdmin !== 3 && (
+            <Grid.Item>
+              <Button
+                className={styles.linkBtn}
+                onClick={() => Taro.navigateTo({ url: '/pages/problem-bank/index' })}
+              >
+                试题库
+              </Button>
+            </Grid.Item>
+          )}
           <Grid.Item>
             <Button
               className={styles.linkBtn}
@@ -111,10 +113,12 @@ const Home = () => {
             </Button>
           </Grid.Item>
           <Grid.Item>
-            <Button className={styles.linkBtn}>我的收藏</Button>
-          </Grid.Item>
-          <Grid.Item>
-            <Button className={styles.linkBtn}>学习资料</Button>
+            <Button
+              className={styles.linkBtn}
+              onClick={() => Taro.navigateTo({ url: '/pages/like/index' })}
+            >
+              我的收藏
+            </Button>
           </Grid.Item>
         </Grid>
         <Swiper defaultValue={0} indicator className={styles.homeSwiper}>
@@ -136,20 +140,24 @@ const Home = () => {
           <Tabs.TabPane title="我的课程">
             <Space direction="vertical" style={{ gap: 8 }}>
               {isLogined ? (
-                myCourse?.list.length! > 0 ? myCourse?.list?.map((item) => {
-                  return (
-                    <CourseCard
-                      key={item.courseId}
-                      courseID={item.courseId}
-                      courseName={item.courseName}
-                      tags={item.tags}
-                      progress={item?.progress}
-                    />
-                  );
-                }) : <Empty description="未选课" imageSize={80} />
+                myCourse?.list.length! > 0 ? (
+                  myCourse?.list?.map((item) => {
+                    return (
+                      <CourseCard
+                        key={item.courseId}
+                        courseID={item.courseId}
+                        courseName={item.courseName}
+                        tags={item.tags}
+                        progress={item?.progress}
+                      />
+                    );
+                  })
+                ) : (
+                  <Empty description="未选课" imageSize={80} />
+                )
               ) : (
-                  <Empty className={styles.Empty} description="请先登录" />
-                )}
+                <Empty className={styles.Empty} description="请先登录" />
+              )}
             </Space>
           </Tabs.TabPane>
           <Tabs.TabPane title="全部课程">
@@ -166,8 +174,8 @@ const Home = () => {
                   );
                 })
               ) : (
-                  <Empty className={styles.Empty} description="请先登录" />
-                )}
+                <Empty className={styles.Empty} description="请先登录" />
+              )}
             </Space>
           </Tabs.TabPane>
         </Tabs>
@@ -179,7 +187,7 @@ const Home = () => {
         onConfirm={async () => {
           if (!username) {
             Taro.showToast({ title: '用户名不能为空', icon: 'error' });
-            return () => { };
+            return () => {};
           }
           const res = await updateUsername({ username });
           if (res.code === 0) {
@@ -188,7 +196,7 @@ const Home = () => {
           } else {
             Taro.showToast({ title: '用户名已被使用！', icon: 'error' });
           }
-          return () => { };
+          return () => {};
         }}
         onCancel={() => setVisible(false)}
         closeOnOverlayClick={false}

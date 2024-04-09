@@ -1,3 +1,4 @@
+import { useLikeProblemList } from '@/api/like/likeProblem';
 import { usePaperReport } from '@/api/paper/getPaperReport';
 import PaperReortPane from '@/components/paper/report';
 import WrongProblemPane from '@/components/paper/report/WrongProblemPane';
@@ -12,7 +13,8 @@ const PaperReortPage: React.FC = () => {
   const [mode, setMode] = useState<'normal' | 'all' | 'onlyWrong'>('normal');
   const { fragmentId, courseId, paperId, reportId } = router.params;
   const { data: report, loading } = usePaperReport({ reportId: reportId || '' });
-
+  const { data: likeList, refresh: refreshLikeList } = useLikeProblemList();
+  console.log('likeList', likeList);
   return (
     <>
       <View className={styles.container}>
@@ -22,6 +24,8 @@ const PaperReortPage: React.FC = () => {
             paperId={paperId || ''}
             userAnswerSheet={report?.userAnswerSheet}
             mode={mode}
+            likeList={likeList?.likeProblems}
+            refreshLikeList={refreshLikeList}
           />
         )}
       </View>

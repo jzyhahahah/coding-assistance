@@ -1,7 +1,7 @@
 import consultQr from '@/assets/consult_qr.png';
 import { useGetSafeHeight } from '@/common/hooks';
 import { useAuth } from '@/components/hoc/with-auth';
-import { ArrowRight, Message, Setting, Star } from '@nutui/icons-react-taro';
+import { ArrowRight, Setting, Star } from '@nutui/icons-react-taro';
 import { Avatar, Button, Cell, Dialog, Input } from '@nutui/nutui-react-taro';
 import { Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
@@ -47,43 +47,33 @@ const Account = () => {
           <div className={styles.username}>{user?.coding}</div>
         </div>
       </div>
-      <Cell
-        title={
-          <div className="cell">
-            <Message size="16" />
-            {'联系小助理'}
-          </div>
-        }
-        onClick={() => setContactShow(true)}
-        extra={<ArrowRight />}
-      />
       <Cell.Group>
         <Cell
           title={
             <div className="cell">
-              <Star size="16" /> 我是标题
+              <Star size="16" /> 试题库
             </div>
           }
           extra={<ArrowRight />}
-          onClick={() => {
-            setVisible(true);
-          }}
+          onClick={() => Taro.navigateTo({ url: '/pages/problem-bank/index' })}
         />
         <Cell
           title={
             <div className="cell">
-              <Star size="16" /> 我是标题
+              <Star size="16" /> 我的收藏
             </div>
           }
           extra={<ArrowRight />}
+          onClick={() => Taro.navigateTo({ url: '/pages/like/index' })}
         />
         <Cell
           title={
             <div className="cell">
-              <Star size="16" /> 我是标题
+              <Star size="16" /> 错题本
             </div>
           }
           extra={<ArrowRight />}
+          onClick={() => Taro.navigateTo({ url: '/pages/wrong-book/index' })}
         />
         <Cell
           title={

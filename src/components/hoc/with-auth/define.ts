@@ -1,6 +1,7 @@
 import { LoginRequest, LoginRespones } from '@/api/user/define';
 
 export type UserInfo = {
+  isAdmin: 1 | 2 | 3;
   _id: string;
   _openid: string;
   nickName: string;
