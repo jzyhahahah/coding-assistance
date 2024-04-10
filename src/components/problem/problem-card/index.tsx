@@ -1,7 +1,9 @@
+import { useAddLikeProblem, useRemoveLikeProblem } from '@/api/like/likeProblem';
 import { Copy } from '@nutui/icons-react-taro';
 import { Button, Divider, Space } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import { useState } from 'react';
 import QuestionViewer from '../question-viewer';
 import { ChoiceOption, Question } from '../question-viewer/define';
 import styles from './index.module.scss';
@@ -9,9 +11,13 @@ import styles from './index.module.scss';
 interface ProblemCardProps {
   className?: string;
   question: Question;
+  like?: boolean;
 }
 
-const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
+const ProblemCard: React.FC<ProblemCardProps> = ({ className, question, like = false }) => {
+  const [isLike, setIsLike] = useState(true);
+  const { runAsync: add } = useAddLikeProblem();
+  const { runAsync: remove } = useRemoveLikeProblem();
   const questionTypeMap = {
     singleChoice: '单选题',
     multipleChoice: '多选题',
@@ -48,7 +54,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
   return (
     <View className={`${styles.container} ${className}`}>
       <View className={styles.topInfo}>
-        <Space>
+        <Space style={{ alignItems: 'center' }}>
           <span className={styles.textLabel}>题目ID:</span>
           <span className={`${styles.ellipse} ${styles.textValue}`}>{question._id}</span>
           <Button
@@ -73,12 +79,33 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ className, question }) => {
             }}
           />
         </Space>
-        <Space>
+        <Space style={{ alignItems: 'center' }}>
           <span className={styles.textLabel}>题型:</span>
           <span className={`${styles.ellipse} ${styles.textValue}`}>
             {questionTypeMap[question.type]}
           </span>
         </Space>
+        <Button
+          type={!isLike ? 'primary' : 'danger'}
+          onClick={async () => {
+            if (isLike) {
+              await remove({ problemId: question._id });
+              Taro.showToast({
+                title: '取消收藏成功',
+                icon: 'success'
+              });
+            } else {
+              await add({ problemId: question._id });
+              Taro.showToast({
+                title: '收藏成功',
+                icon: 'success'
+              });
+            }
+            setIsLike(!isLike);
+          }}
+        >
+          {isLike ? '取消收藏' : '收藏'}
+        </Button>
       </View>
       <QuestionViewer changeAnswer={false} className={styles.questionViewer} item={question} />
       <Divider className={styles.divider} />

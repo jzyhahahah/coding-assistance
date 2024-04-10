@@ -69,7 +69,7 @@ const MyLikeProblem = () => {
         <Space direction="vertical">
           {!loading ? (
             problemList?.likeProblems?.map((problem) => {
-              return <ProblemCard question={problem} key={problem._id} />;
+              return <ProblemCard question={problem} key={problem._id} like />;
             })
           ) : (
             <Skeleton rows={10} animated />
