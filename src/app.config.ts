@@ -11,6 +11,7 @@ export default defineAppConfig({
     'pages/paper-report/index',
     'pages/wrong-book/index',
     'pages/like/index',
+    'pages/chat/index',
     'components/account/settings/index',
     'components/account/userInfo-edit/index'
   ],

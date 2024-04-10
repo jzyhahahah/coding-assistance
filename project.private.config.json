@@ -10,6 +10,27 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/chat/index",
+          "pathName": "pages/chat/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/paper/index",
+          "pathName": "pages/paper/index",
+          "query": "fragmentId=3fa9b31265f3aa28025d0e0d7e3ec625&courseId=7027b65465b8e86b0931b845628f0b4b&paperId=0601950565f19375022337d6575514a6&fragmentTitle=%E6%9C%9F%E6%9C%AB%E6%B5%8B%E8%AF%95%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/paper/index",
+          "pathName": "pages/paper/index",
+          "query": "fragmentId=0601950566124b590627b5bc27c98008&courseId=f531710465b9fc120103b03d594f4104&paperId=2da15183661138b4061003c66575dde3&fragmentTitle=%E6%B5%8B%E8%AF%95%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/like/index",
           "pathName": "pages/like/index",
           "query": "",

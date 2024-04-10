@@ -1,0 +1,33 @@
+.chatHistory {
+  height: 100%;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  .message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 70%;
+    word-wrap: break-word;
+  }
+
+  .sent {
+    background-color: #DCF8C6;
+    align-self: flex-end;
+  }
+
+  .received {
+    background-color: #ECE5DD;
+    align-self: flex-start;
+  }
+
+  .messageSender {
+    font-weight: bold;
+    margin-bottom: 3px;
+    font-size: 12px;
+  }
+
+  .messageText {
+    word-break: break-all;
+  }
+}

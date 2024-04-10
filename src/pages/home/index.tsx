@@ -89,11 +89,11 @@ const Home = () => {
             </View>
           </>
         ) : (
-          <View className={styles.noLogin}>{'请先登录'}</View>
-        )}
+            <View className={styles.noLogin}>{'请先登录'}</View>
+          )}
       </View>
       <View className={styles.bottomContainer}>
-        <Grid className={styles.linkBtns} columns={user?.isAdmin !== 3 ? 3 : 2}>
+        <Grid className={styles.linkBtns} columns={user?.isAdmin !== 3 ? 2 : 3}>
           {user?.isAdmin !== 3 && (
             <Grid.Item>
               <Button
@@ -118,6 +118,14 @@ const Home = () => {
               onClick={() => Taro.navigateTo({ url: '/pages/like/index' })}
             >
               我的收藏
+            </Button>
+          </Grid.Item>
+          <Grid.Item>
+            <Button
+              className={styles.linkBtn}
+              onClick={() => Taro.navigateTo({ url: '/pages/chat/index' })}
+            >
+              智能问答
             </Button>
           </Grid.Item>
         </Grid>
@@ -153,11 +161,11 @@ const Home = () => {
                     );
                   })
                 ) : (
-                  <Empty description="未选课" imageSize={80} />
-                )
+                    <Empty description="未选课" imageSize={80} />
+                  )
               ) : (
-                <Empty className={styles.Empty} description="请先登录" />
-              )}
+                  <Empty className={styles.Empty} description="请先登录" />
+                )}
             </Space>
           </Tabs.TabPane>
           <Tabs.TabPane title="全部课程">
@@ -174,8 +182,8 @@ const Home = () => {
                   );
                 })
               ) : (
-                <Empty className={styles.Empty} description="请先登录" />
-              )}
+                  <Empty className={styles.Empty} description="请先登录" />
+                )}
             </Space>
           </Tabs.TabPane>
         </Tabs>
@@ -187,7 +195,7 @@ const Home = () => {
         onConfirm={async () => {
           if (!username) {
             Taro.showToast({ title: '用户名不能为空', icon: 'error' });
-            return () => {};
+            return () => { };
           }
           const res = await updateUsername({ username });
           if (res.code === 0) {
@@ -196,7 +204,7 @@ const Home = () => {
           } else {
             Taro.showToast({ title: '用户名已被使用！', icon: 'error' });
           }
-          return () => {};
+          return () => { };
         }}
         onCancel={() => setVisible(false)}
         closeOnOverlayClick={false}
