@@ -59,7 +59,7 @@ const Home = () => {
           <>
             <View className={styles.topUserName}>{user?.nickName}</View>
             <View className={styles.topCodingExp}>{user?.coding}</View>
-            <View className={styles.userStatus}>
+{/*             <View className={styles.userStatus}>
               <Space>
                 <View className={styles.leftProgress}>
                   <Space direction="vertical">
@@ -86,7 +86,7 @@ const Home = () => {
                   </Space>
                 </View>
               </Space>
-            </View>
+            </View> */}
           </>
         ) : (
             <View className={styles.noLogin}>{'请先登录'}</View>
